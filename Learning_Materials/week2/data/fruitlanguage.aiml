@@ -1,0 +1,6 @@
+<aiml>
+<category>
+    <pattern> TELL ME ABOUT APPLES</pattern>
+    <template> <srai> DESCRIBE APPLES</srai> </template>
+</category>
+</aiml>
