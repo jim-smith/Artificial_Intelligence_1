@@ -1,0 +1,22 @@
+<aiml>
+  <category>
+    <pattern> MY FAVOURITE FRUIT IS * </pattern>
+    <template>
+        <!-- save value in a varaible -->
+        <think> 
+            <set name="fave"><star/></set>
+        </think>
+        <!-- show value of saved variable-->
+        Your favourite  is <get name="fave"/>.
+        <!-- simple one-line condition-->
+        <condition name="fave" value="apples"> I like apples best too.</condition>
+        
+        <!-- this version is more like a switch -->
+        <condition name="fave">
+            <li value = "apples" > Apples grow well in the UK. </li>
+            <li  value = "oranges" > Oranges are sweet, and juicy, but have to be imported to the UK. </li>
+            <li> I have nothing to say about <star/></li>
+        </condition>
+    </template>
+  </category>
+</aiml>
