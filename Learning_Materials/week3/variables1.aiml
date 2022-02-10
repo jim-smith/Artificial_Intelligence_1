@@ -1,0 +1,6 @@
+<aiml>
+<category>
+<pattern>MY  * COLOURED * IS A FRUIT</pattern>
+<template>Well, <star/> is an unusual colour, but your <star index="2"/> is edible.</template>
+</category>
+</aiml>

@@ -1,0 +1,10 @@
+<aiml>
+  <category>
+    <pattern> TELL ME ABOUT * </pattern>
+    <template> <srai> DESCRIBE <star/></srai></template>
+  </category>  
+  <category>
+    <pattern> DESCRIBE * </pattern>
+    <template> <srai> TELL ME ABOUT <star/></srai></template>
+  </category>  
+</aiml>
