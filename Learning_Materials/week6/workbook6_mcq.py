@@ -88,7 +88,7 @@ def create_multipleChoice_widget(description, options, correct_answer):
     return widgets.VBox([description_out, alternativ, check, feedback_out])
 
 
-Q1 = create_multipleChoice_widget('How many clusters do you think you might find in the data?',
+Q1 = create_multipleChoice_widget('How many clusters do the botanists think you might find in the data?',
                                   ['1', '2', '3', '4', '5', '6'], '3')
 
 Q2 = create_multipleChoice_widget(
