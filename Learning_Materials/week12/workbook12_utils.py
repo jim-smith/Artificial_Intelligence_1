@@ -81,7 +81,7 @@ def setUpMaze(mazefilename):
     upMove = - (maze.lastColumnId)
     downMove = (maze.lastColumnId)
     # define the set of move so we can iterate through them
-    moveSet = [leftMove,rightMove, upMove,downMove]
+    moveSet = [leftMove,downMove,rightMove, upMove]
 
     return maze,moveSet
 
