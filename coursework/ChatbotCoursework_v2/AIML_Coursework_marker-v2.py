@@ -8,7 +8,7 @@
 # 
 # # Run the next code cell to do some imports
 
-# In[ ]:
+# In[1]:
 
 
 import re
@@ -44,7 +44,7 @@ def isnotebook():
 # - you can change the name of your input file to something other than "student.aiml" if you want.
 # - **Dont change anything else**
 
-# In[ ]:
+# In[2]:
 
 
 debug = False
@@ -64,7 +64,7 @@ if not exists(theAIMLfile):
 # # Run the next three cells to set up the questions
 # ## make sure that they report they have not found errors
 
-# In[ ]:
+# In[3]:
 
 
 try:
@@ -74,7 +74,7 @@ except NameError as err:
     print('ERROR: Got error {} - that suggests you have not run the cell above?\n')
 
 
-# In[ ]:
+# In[4]:
 
 
 theQuestionsFileName = "coursework-questions-and-responses-v2.txt"
@@ -87,7 +87,7 @@ NUMCONTEXTQS=3
 contextQuestions = [35,42,44]
 
 
-# In[ ]:
+# In[5]:
 
 
 #declare arrays to hold the questions and answers
@@ -190,7 +190,7 @@ else:
 
 # # Run the next cell to  create the chatbot
 
-# In[ ]:
+# In[6]:
 
 
 # Create Chatbot and read the candidate AIML file
@@ -202,9 +202,7 @@ checkBot.verbose(True)
 # ### If you have edited your .aiml file, you can restart from here 
 # ### rather than restarting the kernel  and re-running the whole notebook
 
-# In[ ]:
-
-
+# In[7]:
 
 
 if exists(theAIMLfile):
@@ -247,7 +245,7 @@ else:
 
 # # Run the next four code cells to test your aiml
 
-# In[ ]:
+# In[8]:
 
 
 ### See how frequently different language constructs have been used
@@ -288,7 +286,7 @@ else:
           "Check the cells above to make sure you have specified it")
 
 
-# In[ ]:
+# In[9]:
 
 
 ### See if users have duplicated information
@@ -320,8 +318,8 @@ else:
     unnecessary_duplicates = False
 
 
-# In[ ]:
 
+# In[10]:
 
 
 ### Ask the questions, check and store the responses
@@ -362,7 +360,7 @@ responsesFile.write(' In total you got {} questions correct'.format(numCorrect))
 responsesFile.close()
 
 
-# In[ ]:
+# In[11]:
 
 
 ### Calculate final score and feedback
@@ -393,7 +391,7 @@ if not load_failed:
 
     # what did the submission get wrong and why?
     if(numCorrect< NUMQS):
-        feedback = fstart+ "Your bot answered one or more questions incorrectly." +fend 
+        feedback = fstart+ f"Your bot answered {NUMQS-numCorrect} questions incorrectly." +fend 
         feedbackFile.write(feedback)
         feedback = fstart + "File " + responsesFileName + " has more details of your bots responses." +fend
         feedbackFile.write(feedback)
@@ -440,7 +438,7 @@ if not load_failed:
 
 # # Run next cell to show your results and feedback
 
-# In[ ]:
+# In[12]:
 
 
 if isnotebook():
@@ -454,16 +452,16 @@ if isnotebook():
 
 # # Uncomment the cell below if you want to run your bot interactively
 
-# In[ ]:
+# In[13]:
 
 
-# keepgoing= True
-# while(keepgoing):
-#     nextInput = input("Enter your message >> ")
-#     if (nextInput=='bye'):
-#         keepgoing= False
-#     else:
-#         print (checkBot.respond(nextInput))
+#keepgoing= True
+#while(keepgoing):
+#    nextInput = input("Enter your message >> ")
+#    if (nextInput=='bye'):
+#        keepgoing= False
+#    else:
+#        print (checkBot.respond(nextInput))
 
 
 # In[ ]:

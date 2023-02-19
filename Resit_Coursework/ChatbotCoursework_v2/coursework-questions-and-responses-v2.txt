@@ -29,27 +29,27 @@ Q09: Give me an example of short-term domain-specific knowledge.
 A09: The deadline for the submission of this coursework.
 
 Q10: Give me an example of a rule.
-A10: If isUWEStaff(X) then hasUWEPhone (X).
+A10: If isAlive(X) then NOT isDead(X).
 
 Q11: Give me an example of a fact.
-A11: Jim Smith from UWE hasUWEPhoneNumber 0117 3287417.
+A11: Jim Smith from UWE hasEmail james.smith@uwe.ac.uk
 
-Q12: Describe long-term knowledge?
+Q12: Give me a definition of long-term knowledge?
 A12: Long-term knowledge is valid over a period of time.
 
-Q13: Describe short-term knowledge.
+Q13: Give me a definition of short-term knowledge.
 A13: Short-term knowledge is only valid for a particular situation or run of a programme.
 
-Q14: Describe generic knowledge.
+Q14: Give me a definition of generic knowledge.
 A14: Generic knowledge is relevant to more than one application or domain.
 
-Q15: Describe domain-specific knowledge.
+Q15: Give me a definition of domain-specific knowledge.
 A15: Domain-specific knowledge is only applicable to one specific application or domain.
 
-Q16: Describe a fact.
+Q16: Give me a definition of a fact.
 A16: A fact is a statement which asserts that a relationship holds for an object-subject pair.
 
-Q17: Describe a rule.
+Q17: Give me a definition of a rule.
 A17: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
 
 Q18: Tell me about long-term knowledge?
@@ -83,10 +83,10 @@ Q27: Illustrate the concept of short-term domain-specific knowledge.
 A27: The deadline for the submission of this coursework.
 
 Q28: Illustrate the concept of a fact.
-A28: Jim Smith from UWE hasUWEPhoneNumber 0117 3287417.
+A28: Jim Smith from UWE hasEmail james.smith@uwe.ac.uk
 
 Q29: Illustrate the concept of a rule.
-A29: If isUWEStaff(X) then hasUWEPhone (X).
+A29: If isAlive(X) then NOT isDead(X).
 
 Q30: Provide an example of long-term generic knowledge.
 A30: The formal specification of the python programming language.
@@ -101,27 +101,27 @@ Q33: Provide an example of short-term domain-specific knowledge.
 A33: The deadline for the submission of this coursework.
 
 Q34: Please provide an example of a fact.
-A34: Jim Smith from UWE hasUWEPhoneNumber 0117 3287417.
+A34: Jim Smith from UWE hasEmail james.smith@uwe.ac.uk
 
 Q35: Why is knowing that useful?
 A35: I have no answer for that.
 
 Q36: Please provide an example of a rule.
-A36: If isUWEStaff(X) then hasUWEPhone (X).
+A36: If isAlive(X) then NOT isDead(X).
 
 Q37: What is a rule mybot?
 A37: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
 
 Q38: Please give me an example of a rule.
-A38: If isUWEStaff(X) then hasUWEPhone (X).
+A38: If isAlive(X) then NOT isDead(X).
 
 Q39: Please myBot what is a rule?
 A39: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
 
-Q40: Mybot please what is a rule?
+Q40: Mybot please give me a definition of a rule.
 A40: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
 
-Q41: Describe how AIML allows variables in its long-term knowledge?
+Q41: Describe how AIML allows variables in its long-term knowledge.
 A41: AIML has wildcards and srai for that purpose.
 
 Q42: Why is knowing that useful?
@@ -131,4 +131,4 @@ Q43: How does AIML provide context during a conversation.
 A43: AIML supports context through the use of the that tag to refer to previous bot answers, and via setting variables such as topic.
 
 Q44: Why is knowing that useful?
-A44: The fourth word in this question is an example of how some words can only be understood in context. 
+A44: Because some words like that and it can only be understood in the context of prevous sentences. 
