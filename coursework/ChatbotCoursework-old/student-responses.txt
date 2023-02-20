@@ -1,0 +1,226 @@
+Q 8: Give me an example of short-term generic knowledge.
+Expected response: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+Your bot response: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+*** Question answered correctly
+
+Q30: Provide an example of long-term generic knowledge.
+Expected response: The formal specification of the python programming language.
+Your bot response: The formal specification of the python programming language.
+*** Question answered correctly
+
+Q18: Tell me about long-term knowledge?
+Expected response: Long-term knowledge is valid over a period of time.
+Your bot response: Long-term knowledge is valid over a period of time.
+*** Question answered correctly
+
+Q 7: Give me an example of long-term domain-specific knowledge.
+Expected response: The formal specification of a particular machine learning algorithm.
+Your bot response: The formal specification of a particular machine learning algorithm.
+*** Question answered correctly
+
+Q28: Illustrate the concept of a fact.
+Expected response: All coursework for this module is run through automatic and effective plagiarism checks.
+Your bot response: All coursework for this module is run through automatic and effective plagiarism checks.
+*** Question answered correctly
+
+Q36: Please provide an example of a rule.
+Expected response: If isAlive(X) then NOT isDead(X).
+Your bot response: If isAlive(X) then NOT isDead(X).
+*** Question answered correctly
+
+Q29: Illustrate the concept of a rule.
+Expected response: If isAlive(X) then NOT isDead(X).
+Your bot response: If isAlive(X) then NOT isDead(X).
+*** Question answered correctly
+
+Q 2: What is generic knowledge?
+Expected response: Generic knowledge is relevant to more than one application or domain.
+Your bot response: Generic knowledge is relevant to more than one application or domain.
+*** Question answered correctly
+
+Q 6: Give me an example of long-term generic knowledge.
+Expected response: The formal specification of the python programming language.
+Your bot response: The formal specification of the python programming language.
+*** Question answered correctly
+
+Q 4: What is a fact?
+Expected response: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+Your bot response: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+*** Question answered correctly
+
+Q34: Please provide an example of a fact.
+Expected response: All coursework for this module is run through automatic and effective plagiarism checks.
+Your bot response: All coursework for this module is run through automatic and effective plagiarism checks.
+*** Question answered correctly
+
+Q35: Why is knowing that useful?
+Expected response: To remind you that we take assessment offences very seriously.
+Your bot response: To remind you that we take assessment offences very seriously.
+*** Question answered correctly
+
+Q40: Mybot please give me a definition of a rule.
+Expected response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+Your bot response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+*** Question answered correctly
+
+Q 1: What is short-term knowledge?
+Expected response: Short-term knowledge is only valid for a particular situation or run of a programme.
+Your bot response: Short-term knowledge is only valid for a particular situation or run of a programme.
+*** Question answered correctly
+
+Q27: Illustrate the concept of short-term domain-specific knowledge.
+Expected response: The deadline for the submission of this coursework.
+Your bot response: The deadline for the submission of this coursework.
+*** Question answered correctly
+
+Q39: Please myBot what is a rule?
+Expected response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+Your bot response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+*** Question answered correctly
+
+Q38: Please give me an example of a rule.
+Expected response: If isAlive(X) then NOT isDead(X).
+Your bot response: If isAlive(X) then NOT isDead(X).
+*** Question answered correctly
+
+Q32: Provide an example of short-term generic knowledge.
+Expected response: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+Your bot response: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+*** Question answered correctly
+
+Q15: Give me a definition of domain-specific knowledge.
+Expected response: Domain-specific knowledge is only applicable to one specific application or domain.
+Your bot response: Domain-specific knowledge is only applicable to one specific application or domain.
+*** Question answered correctly
+
+Q31: Provide an example of long-term domain-specific knowledge.
+Expected response: The formal specification of a particular machine learning algorithm.
+Your bot response: The formal specification of a particular machine learning algorithm.
+*** Question answered correctly
+
+Q41: What is the way that AIML allows variables in its long-term knowledge.
+Expected response: AIML has wildcards and srai for that purpose.
+Your bot response: AIML has wildcards and srai for that purpose.
+*** Question answered correctly
+
+Q42: Why is knowing that useful?
+Expected response: Because it allows us to make statements that apply to classes of things or questions.
+Your bot response: Because it allows us to make statements that apply to classes of things or questions.
+*** Question answered correctly
+
+Q25: Illustrate the concept of long-term domain-specific knowledge.
+Expected response: The formal specification of a particular machine learning algorithm.
+Your bot response: The formal specification of a particular machine learning algorithm.
+*** Question answered correctly
+
+Q26: Illustrate the concept of short-term generic knowledge.
+Expected response: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+Your bot response: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+*** Question answered correctly
+
+Q 3: What is domain-specific knowledge?
+Expected response: Domain-specific knowledge is only applicable to one specific application or domain.
+Your bot response: Domain-specific knowledge is only applicable to one specific application or domain.
+*** Question answered correctly
+
+Q20: Tell me about generic knowledge.
+Expected response: Generic knowledge is relevant to more than one application or domain.
+Your bot response: Generic knowledge is relevant to more than one application or domain.
+*** Question answered correctly
+
+Q19: Tell me about short-term knowledge.
+Expected response: Short-term knowledge is only valid for a particular situation or run of a programme.
+Your bot response: Short-term knowledge is only valid for a particular situation or run of a programme.
+*** Question answered correctly
+
+Q37: What is a rule mybot?
+Expected response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+Your bot response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+*** Question answered correctly
+
+Q11: Give me an example of a fact.
+Expected response: All coursework for this module is run through automatic and effective plagiarism checks.
+Your bot response: All coursework for this module is run through automatic and effective plagiarism checks.
+*** Question answered correctly
+
+Q17: Give me a definition of a rule.
+Expected response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+Your bot response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+*** Question answered correctly
+
+Q43: What is the way AIML supports context during a conversation.
+Expected response: AIML supports context through the use of the that tag to refer to previous bot answers, and via setting variables such as topic.
+Your bot response: AIML supports context through the use of the that tag to refer to previous bot answers, and via setting variables such as topic.
+*** Question answered correctly
+
+Q44: Why is knowing that useful?
+Expected response: Because some words like that and it can only be understood in the context of previous sentences
+Your bot response: Because some words like that and it can only be understood in the context of previous sentences
+*** Question answered correctly
+
+Q14: Give me a definition of generic knowledge.
+Expected response: Generic knowledge is relevant to more than one application or domain.
+Your bot response: Generic knowledge is relevant to more than one application or domain.
+*** Question answered correctly
+
+Q23: Tell me about a rule.
+Expected response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+Your bot response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+*** Question answered correctly
+
+Q13: Give me a definition of short-term knowledge.
+Expected response: Short-term knowledge is only valid for a particular situation or run of a programme.
+Your bot response: Short-term knowledge is only valid for a particular situation or run of a programme.
+*** Question answered correctly
+
+Q22: Tell me about a fact.
+Expected response: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+Your bot response: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+*** Question answered correctly
+
+Q 0: What is long-term knowledge?
+Expected response: Long-term knowledge is valid over a period of time.
+Your bot response: Long-term knowledge is valid over a period of time.
+*** Question answered correctly
+
+Q16: Give me a definition of a fact.
+Expected response: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+Your bot response: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+*** Question answered correctly
+
+Q 5: What is a rule?
+Expected response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+Your bot response: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+*** Question answered correctly
+
+Q 9: Give me an example of short-term domain-specific knowledge.
+Expected response: The deadline for the submission of this coursework.
+Your bot response: The deadline for the submission of this coursework.
+*** Question answered correctly
+
+Q12: Give me a definition of long-term knowledge?
+Expected response: Long-term knowledge is valid over a period of time.
+Your bot response: Long-term knowledge is valid over a period of time.
+*** Question answered correctly
+
+Q10: Give me an example of a rule.
+Expected response: If isAlive(X) then NOT isDead(X).
+Your bot response: If isAlive(X) then NOT isDead(X).
+*** Question answered correctly
+
+Q24: Illustrate the concept of long-term generic knowledge.
+Expected response: The formal specification of the python programming language.
+Your bot response: The formal specification of the python programming language.
+*** Question answered correctly
+
+Q33: Provide an example of short-term domain-specific knowledge.
+Expected response: The deadline for the submission of this coursework.
+Your bot response: The deadline for the submission of this coursework.
+*** Question answered correctly
+
+Q21: Tell me about domain-specific knowledge.
+Expected response: Domain-specific knowledge is only applicable to one specific application or domain.
+Your bot response: Domain-specific knowledge is only applicable to one specific application or domain.
+*** Question answered correctly
+
+ In total you got 45 questions correct

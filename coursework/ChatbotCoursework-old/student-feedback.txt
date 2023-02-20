@@ -1,0 +1,4 @@
+<SCORE>65</SCORE>
+<MESSAGE>After removing duplicates, your bot used 12 categories</MESSAGE>
+<MESSAGE>Your bot answered every question correctly using 12 categories</MESSAGE>
+<MESSAGE>Your knowledge base duplicated informstion so you mark is restricted to 65.</MESSAGE>

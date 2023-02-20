@@ -1,0 +1,134 @@
+Q00: What is long-term knowledge?
+A00: Long-term knowledge is valid every time a programme is run.
+
+Q01: What is short-term knowledge?
+A01: Short-term knowledge is only valid for a particular instance or run of a programme.
+
+Q02: What is generic knowledge?
+A02: Generic knowledge is relevant to more than one application or domain.
+
+Q03: What is domain-specific knowledge?
+A03: Domain-specific knowledge is only applicable to one specific application or domain.
+
+Q04: What is a fact?
+A04: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+
+Q05: What is a rule?
+A05: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q06: Give me an example of long-term generic knowledge.
+A06: The equations of motion used to calculate the flight-path of a bird in the game Angry Birds.
+
+Q07: Give me an example of long-term domain-specific knowledge.
+A07: The weight of the different types of birds in the game Angry Birds.
+
+Q08: Give me an example of short-term generic knowledge.
+A08: The date on which a specific episode of Angry Birds is played is generic because it could also be used by another programme.
+
+Q09: Give me an example of short-term domain-specific knowledge.
+A09: The number of birds that a user has fired in a particular episode of Angry Birds.
+
+Q10: Give me an example of a rule.
+A10: If isUWEStaff(X) then hasUWEPhone (X).
+
+Q11: Give me an example of a fact.
+A11: Jim Smith from UWE hasUWEPhoneNumber 0117 3287417.
+
+Q12: Describe long-term knowledge?
+A12: Long-term knowledge is valid every time a programme is run.
+
+Q13: Describe short-term knowledge.
+A13: Short-term knowledge is only valid for a particular instance or run of a programme.
+
+Q14: Describe generic knowledge.
+A14: Generic knowledge is relevant to more than one application or domain.
+
+Q15: Describe domain-specific knowledge.
+A15: Domain-specific knowledge is only applicable to one specific application or domain.
+
+Q16: Describe a fact.
+A16: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+
+Q17: Describe a rule.
+A17: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q18: Tell me about long-term knowledge?
+A18: Long-term knowledge is valid every time a programme is run.
+
+Q19: Tell me about short-term knowledge.
+A19: Short-term knowledge is only valid for a particular instance or run of a programme.
+
+Q20: Tell me about generic knowledge.
+A20: Generic knowledge is relevant to more than one application or domain.
+
+Q21: Tell me about domain-specific knowledge.
+A21: Domain-specific knowledge is only applicable to one specific application or domain.
+
+Q22: Tell me about a fact.
+A22: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+
+Q23: Tell me about a rule.
+A23: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q24: Illustrate the concept of long-term generic knowledge.
+A24: The equations of motion used to calculate the flight-path of a bird in the game Angry Birds.
+
+Q25: Illustrate the concept of long-term domain-specific knowledge.
+A25: The weight of the different types of birds in the game Angry Birds.
+
+Q26: Illustrate the concept of short-term generic knowledge.
+A26: The date on which a specific episode of Angry Birds is played is generic because it could also be used by another programme.
+
+Q27: Illustrate the concept of short-term domain-specific knowledge.
+A27: The number of birds that a user has fired in a particular episode of Angry Birds.
+
+Q28: Illustrate the concept of a fact.
+A28: Jim Smith from UWE hasUWEPhoneNumber 0117 3287417.
+
+Q29: Illustrate the concept of a rule.
+A29: If isUWEStaff(X) then hasUWEPhone (X).
+
+Q30: Provide an example of long-term generic knowledge.
+A30: The equations of motion used to calculate the flight-path of a bird in the game Angry Birds.
+
+Q31: Provide an example of long-term domain-specific knowledge.
+A31: The weight of the different types of birds in the game Angry Birds.
+
+Q32: Provide an example of short-term generic knowledge.
+A32: The date on which a specific episode of Angry Birds is played is generic because it could also be used by another programme.
+
+Q33: Provide an example of short-term domain-specific knowledge.
+A33: The number of birds that a user has fired in a particular episode of Angry Birds.
+
+Q34: Please provide an example of a fact.
+A34: Jim Smith from UWE hasUWEPhoneNumber 0117 3287417.
+
+Q35: Why is knowing that useful?
+A35: I have no answer for that.
+
+Q36: Please provide an example of a rule.
+A36: If isUWEStaff(X) then hasUWEPhone (X).
+
+Q37: What is a rule mybot?
+A37: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q38: Please give me an example of a rule.
+A38: If isUWEStaff(X) then hasUWEPhone (X).
+
+Q39: Please myBot what is a rule?
+A39: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q40: Mybot please what is a rule?
+A40: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q41: Describe how AIML allows variables in its long-term knowledge?
+A41: AIML has wildcards and srai for that purpose.
+
+Q42: Why is knowing that useful?
+A42: Because it allows us to make statements that apply to classes of things or questions.
+
+Q43: How does AIML provide context during a conversation.
+A43: AIML supports context through the use of the that tag to refer to previous bot answers, and via setting variables such as topic.
+
+Q44: Why is knowing that useful?
+A44: The fourth word in this question is an example of how some words can only be understood in context. 
