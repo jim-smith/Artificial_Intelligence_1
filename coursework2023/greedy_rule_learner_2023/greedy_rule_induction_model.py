@@ -7,7 +7,7 @@ Template submission for coursework task implementing greedy rule induction algor
  
 '''
 from learned_rule_model import LearnedRuleModel
-
+import numpy as np
 
 #define some constants for where things are in a rule
 FEATURE=0
@@ -22,12 +22,12 @@ class GreedyRuleInductionModel(LearnedRuleModel):
     sub-class that uses greedy constrcutive search to find a set of rules
     that classify a dataset
     '''
-    def __init__(self,maxRules=10, increments=25):
+    def __init__(self,max_rules=10, increments=25):
         '''constructor 
         calls the init function for the super class
         and inherit all the other methods
         '''
-        super().__init__(maxRules=maxRules, increments=increments)
+        super().__init__(max_rules=max)_rules, increments=increments)
 
 
         
@@ -44,7 +44,7 @@ class GreedyRuleInductionModel(LearnedRuleModel):
         '''
 
         #  superclass method preprocesses the training set  
-        super().fit(train_x,train_y)     
+        super().fit(train_X,train_y)     
         
         ###== YOUR CODE HERE====####
             ## I suggest you copy in the pseudocode for the function function GreedyRuleInduction
