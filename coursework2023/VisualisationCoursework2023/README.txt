@@ -6,10 +6,10 @@ Suggestions for Developing your code submission for coursework part 2
  
  
  2. Copy your file "myVisualiser.py" into this directory
- - this will remove any unexpected side effects due ot runnig in a jupyter notebook
+ - this will remove any unexpected side effects due to running in a jupyter notebook
  
  3. Use the command:
-python 3 pre_submission_test.py
+python3 pre_submission_test.py
 This  will run a test script to try and use your code.
 It is based on the code used in the marking system.
 It will give you feedback if it encounters any errors or problems,
