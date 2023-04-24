@@ -27,7 +27,7 @@ class GreedyRuleInductionModel(LearnedRuleModel):
         calls the init function for the super class
         and inherit all the other methods
         '''
-        super().__init__(max_rules=max)_rules, increments=increments)
+        super().__init__(max_rules=max_rules, increments=increments)
 
 
         
