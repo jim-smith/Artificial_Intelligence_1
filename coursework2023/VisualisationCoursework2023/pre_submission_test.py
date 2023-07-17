@@ -132,25 +132,16 @@ def check_name_in_title(fig:Any,ax:Any,single_ax:bool,student_name:str)->tuple:
                 the_title= ax.get_title()
         except AttributeError:
             title_quality = 0 #missing
-            
-        if the_title=="" or the_title==None:
-            title_quality = 0 #missing
-        elif student_name in the_title:
-            title_quality = 2 #good
-        else :  
-            title_quality = 1 #inadequate
 
-    
-    else:
-        if ('_suptitle' not in fig.__dict__.keys()):
-            title_quality = 0 #non-existent
-        else:    
-            the_title=fig._suptitle.get_text()
-        
-            if student_name in the_title:
-                title_quality = 2 #good
-            else :  
-                title_quality = 1 #inadequate
+            the_title = None
+            try:
+                the_title=fig._suptitle.get_text()
+                if student_name in the_title:
+                    title_quality = 2 #good
+                else :  
+                    title_quality = 1 #inadequate
+            except AttributeError:
+                title_quality=0
 
     return title_quality, quality_strings[title_quality]
     

@@ -41,7 +41,7 @@ def create_multipleChoice_widget(description, options, correct_answer):
     return widgets.VBox([description_out, alternativ, check, feedback_out])
 
 Q1 = create_multipleChoice_widget('Does it make a difference whether you use upper or lower case?',['yes','no'],'no')
-Q2 = create_multipleChoice_widget('Does it make a difference if you have a comma in the middle of your input?',['yes','no'],'yes')
+Q2 = create_multipleChoice_widget('Does it make a difference if you have a comma in the middle of your input?',['yes','no'],'no')
 Q3 = create_multipleChoice_widget('Does it make a difference if you put a full stop in the middle of your input?',['yes','no'],'yes')
 Q4 = create_multipleChoice_widget('Does it make a difference if you you put a question mark in the middle of your input?',['yes','no'],'yes')
 Q5 = create_multipleChoice_widget('Does it make a difference if you have a comma at the end of your input?',['yes','no'],'no')
