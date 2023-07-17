@@ -373,6 +373,11 @@ def check_visualisation(func:Any,datafile:str,K:int,feature_names:Any,student_na
                         message += " which matches K.\n"
                     else:
                         message +=f" but there should be {K}.\n" 
+            except AttributeError:
+                message += ("Your figure does not have histogram plots on the diagonal,"
+                            " which means it is not showing the distribution of values "
+                            " for each variable taken on its own.\n"
+                           )
             except IndexError:
                 message += ("Your figure has empty plots on the diagonal,"
                             " which means it is not showing the distribution of values "
