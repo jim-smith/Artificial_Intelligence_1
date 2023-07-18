@@ -37,7 +37,9 @@ def showPerceptron( w1,w2,bias,func):
     plt.xlim(-1.0,2.0)
     plt.ylim(-1.0,2.0)
     plt.legend(loc='upper left')
-    plt.grid()
+    #plt.grid()
+    plt.xticks([0,1],[0,1])
+    plt.yticks([0,1],[0,1])
     
     
     
