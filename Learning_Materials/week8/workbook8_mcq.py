@@ -147,3 +147,29 @@ Q6 = create_multipleChoice_widget(    'Is there only one set of weights that wou
     ['yes', 'no'], 'no')
 
 Q7 = create_multipleChoice_widget('if a perceptron has learned to correctly predict responses for the OR problem, which one weight can we adjust to make it correctly predict the AND problem?',['biasweight', 'weight1', 'weight2'], 'biasweight')
+
+mcqlist = [Q1,Q2,Q3,Q4,Q5,Q6,Q7]
+
+def check_mcq(id:widgets.VBox)->int:
+    if len (id.children)>=4 and len(id.children[3].outputs)>0:
+        if 'Correct' in id.children[3].outputs[0]['text']:
+            return 1
+        else:
+            return 0
+    else:
+        return -1 #not answered
+    
+    
+def test_mcqs():
+    mcqs= [Q1,Q2,Q3,Q4,Q5,Q6,Q7]
+    correct = 0
+    for q in range(len(mcqs)):
+        res= check_mcq(mcqs[q])
+        errmsg= "no answer submitted" if res== -1 else "incorrect answer"
+        try:
+            assert res==1, errmsg
+            print (f' question {q}: answered correctly')
+            correct += 1
+        except AssertionError:
+            print (f' question {q}: {errmsg}')
+    print(f' Total: {correct} out of {len(mcqs)} questions answered correctly\n')
