@@ -1,0 +1,21 @@
+<aiml>
+
+
+<!-- add your five categories using srai in the template to match the phrases from the list  onto GIVE LOCATION -->
+
+
+<!-- complete these two categories to respond to different conversation history using <that> tag-pairs-->
+
+<category>
+ <pattern>GIVE LOCATION</pattern>
+ <!-- add that tag-pair here -->
+ <template>It may be in your safe place or with a neighbour</template>
+</category>
+
+<category>
+ <pattern>GIVE LOCATION</pattern>
+ <!-- add that tag-pair here -->
+ <template>Your order number is in your confirmation email</template>
+</category>
+
+</aiml>
