@@ -40,12 +40,26 @@ def create_multipleChoice_widget(description, options, correct_answer):
     
     return widgets.VBox([description_out, alternativ, check, feedback_out])
 
-Q1 = create_multipleChoice_widget('Does it make a difference whether you use upper or lower case?',['yes','no'],'no')
-Q2 = create_multipleChoice_widget('Does it make a difference if you have a comma in the middle of your input?',['yes','no'],'no')
-Q3 = create_multipleChoice_widget('Does it make a difference if you put a full stop in the middle of your input?',['yes','no'],'yes')
-Q4 = create_multipleChoice_widget('Does it make a difference if you you put a question mark in the middle of your input?',['yes','no'],'yes')
-Q5 = create_multipleChoice_widget('Does it make a difference if you have a comma at the end of your input?',['yes','no'],'no')
-Q6 = create_multipleChoice_widget('Does it make a difference if you put a full stop at the end of your input?',['yes','no'],'no')
-Q7 = create_multipleChoice_widget('Does it make a difference if you you put a question mark at the end of your input?',['yes','no'],'no')
-Q8 = create_multipleChoice_widget('What happens if you enclose some of your input in quotation marks?',['it makes no difference', 'it passes all the input to the chatbot','it still splits the input'],'it still splits the input')
-Q9 =  create_multipleChoice_widget('What happens to contractions such as what\'s your name?',['the input is split  at the apostrophe','the apostrophe is removed', 'they are expanded into two words'],'they are expanded into two words')
+Q1 = create_multipleChoice_widget('Q1: If there are four digits each from {0,1,...,9}, how many attempts will your algorithm try ON AVERAGE',['1','4','9','1000','5000','10000'],'5000')
+Q2 = create_multipleChoice_widget('Q2:If there are four digits each from {0,1,...,9}, how many attempts will your algorithm try IN THE BEST CASE',['1','4','9','1000','5000','10000'],'1')
+Q3 = create_multipleChoice_widget('Q3: If there are four digits each from {0,1,...,9}, how many attempts will your algorithm try IN THE WORST CASE',['1','4','9','1000','5000','10000'],'10000')
+
+Q4 = create_multipleChoice_widget('Q4: If there are four digits each from {0,1,...,4}, how many attempts will your algorithm try ON AVERAGE',['1','5','100','500','312.5','625','1000'],'312.5')
+Q5 = create_multipleChoice_widget('Q5: If there are five digits each from {0,1,...,9}, how many attempts will your algorithm try ON AVERAGE',['1000','5000','10000','50000'],'50000')
+Q6 = create_multipleChoice_widget('Q6: If there are four digits each from {0,1,...,20}, how many attempts will your algorithm try ON AVERAGE',['1000','5000','10000','80000'],'80000')
+
+Q7 = create_multipleChoice_widget('Q7:As you increase their values, which parameter makes the number of possible answers grow fastest',["don't know",'the number of digits','the number of options for each digit'],'the number of options for each digit')
+
+def check_submitted_answers(answer_dict):
+    global answer1,answer2,answer3,answer4,answer5,answer6,answer7
+    try:
+        assert answer_dict['Q1'] == 5000, "numerical value wrong"
+        assert answer_dict['Q2'] == 1 , "numerical value wrong"
+        assert answer_dict['Q3'] == 10000, "numerical value wrong"
+        assert answer_dict['Q4'] == 312.5, "numerical value wrong"
+        assert answer_dict['Q5'] == 50000, "numerical value wrong"
+        assert answer_dict['Q6'] == 80000, "numerical value wrong"
+        assert answer_dict['Q7'] == "the number of options for each digit","Did you get the spelling and spacing right?"
+        print('These answers are all correctly stored and ready to submit')
+    except AssertionError:
+        print('some of these answers are not correct')
