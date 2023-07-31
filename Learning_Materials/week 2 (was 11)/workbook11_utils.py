@@ -1,5 +1,4 @@
 
-
 import copy
 
 
@@ -177,7 +176,6 @@ def create_multipleChoice_widget(description, options, correct_answer):
     
     
     return widgets.VBox([description_out, alternativ, check, feedback_out])
-
 Q0 = create_multipleChoice_widget('What type of search is the algorithm below implementing?',['Constructive','Perturbative'],'Constructive')
 Q1 = create_multipleChoice_widget('From your understanding of Depth-First Search, why did the algorithm fail to complete?',['It completed','It got stuck in a loop','It was not allowed enough iterations'],'It got stuck in a loop')
 Q2 = create_multipleChoice_widget('Is depth-first search complete',['yes','no'],'no')

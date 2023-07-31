@@ -1,35 +1,3 @@
-
-
-import copy
-#======================================================
-class candidateSolution:
-    def __init__(self):
-        self.variableValues = []
-        self.quality = 0
-        self.depth=0
-        self.breaks_constraints = False
-        self.reason =""
-
-
-
-#======================================================        
-#python 3 lets us define the types of parameters if we want to
-def IsAtGoal(soln:candidateSolution): 
-    if(soln.quality==1):
-        return True
-    else:
-        return False
-    
-    
-#======================================================
-
-# define the encoding we will use for moves    
-moveNames = ["empty_0to1","Grain_0to1","Chicken_0to1","Fox_0to1","empty_1to0","Grain_1to0", "Chicken_1to0", "Fox_1to0"]    
-    
-#moveNames = ["b01","G01","C01","F01","b10","G10", "C10", "F10"]    
-    
-    
-    
 #=====================================================    
 def Evaluate(soln: candidateSolution ):
     location = [0,0,0,0]
@@ -112,13 +80,11 @@ def Evaluate(soln: candidateSolution ):
         # check for infeasible partial solutions
         if( location[boat] != location[chicken]):
             if( location[chicken]==location[fox]):
-                soln.reason = 'fox eats chicken'
-                soln.breaks_constraints= True
+                reason = 'fox eats chicken'
                 soln.quality=-1
                 break
             if(location[chicken]==location[grain]):
-                soln.reason = 'chicken eats grain'
-                soln.breaks_constraints= True
+                reason = 'chicken eats grain'
                 soln.quality=-1
                 break
         #check for goal
@@ -128,7 +94,7 @@ def Evaluate(soln: candidateSolution ):
             break
     return reason
             
-#==================================================================            
+#=================================================================
 def to_display(soln:candidateSolution):
     nummoves= len(soln.variableValues)
     movelist = ""
@@ -136,3 +102,14 @@ def to_display(soln:candidateSolution):
         #movelist = movelist + " -> " + moveNames [move] 
         movelist = movelist + "->" + moveNames [move] 
     return movelist
+
+#======================================================        
+#python 3 lets us define the types of parameters if we want to
+def IsAtGoal(soln:candidateSolution): 
+    if(soln.quality==1):
+        return True
+    else:
+        return False
+    
+    
+#======================================================
