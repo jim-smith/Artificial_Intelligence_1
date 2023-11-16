@@ -1,9 +1,10 @@
-import ipywidgets as widgets
-from IPython.display import clear_output
-import numpy as np
 import random
+
+import ipywidgets as widgets
 import matplotlib.pyplot as plt
-from time import sleep
+import numpy as np
+from IPython.display import clear_output
+
 
 # ======================================================
 class CandidateSolution:
@@ -228,27 +229,27 @@ Q8 = create_multiple_choice_widget(
 )
 
 
+# ===================================================
+class TwoInputPerceptron:
+    """Simple perceptron used to make learning traces."""
 
-#===================================================
-class two_input_perceptron:
-    """ simple perceptron used to make learning traces"""
     def __init__(self, learning_rate):
         self.weight1 = random.random()
         self.weight2 = random.random()
         self.biasweight = random.random()
         self.bias = 1
         self.learning_rate = learning_rate
-        #print(
+        # print(
         #    " starting with initial random weights "
         #    f'{self.weight1}, {self.weight2} '
         #    )
 
+    def predict(self, input1, input2) -> int:
+        """Makes a prediction for a data point.
 
-    def predict(self, input1, input2) -> int:  
-        """ makes a prediction for a data point
         Parameters
         ----------
-        input1, input2: int
+        input1, input2 : int
               variable values that define the data point
         """
         summed_input = (
@@ -256,21 +257,23 @@ class two_input_perceptron:
         )
         return 1 if summed_input > 0 else 0
 
-    def update_weights(self, in1, in2, target)->int:
-        """ implements perceptron update rule
+    def update_weights(self, in1, in2, target) -> int:
+        """Implements perceptron update rule.
+
         Parameters
-        ---------
-        in1:int
-        in2:int
+        ----------
+        in1 : int
+        in2 : int
              together define a s ingle data point
-        target: int
+        target : int
                 corresponding desired output
+
         Returns
         -------
         Whether the output was coreect (0) or not (1)
         - used to plot error rate
         """
-        
+
         error = target - self.predict(in1, in2)
         if error == 0:
             return 0
@@ -282,70 +285,83 @@ class two_input_perceptron:
                 self.weight2 += error * in2 * self.learning_rate
             return 1
 
-    def fit(self, train_X, train_y, max_epochs, verbose=True):
-        """ trains weights
+    def fit(self, train_x, train_y, max_epochs, verbose=True):
+        """Trains weights.
+
         Parameters
         ----------
-        train_X: numpy ndarray
+        train_x : numpy ndarray
                  training set features
-        train_y: numpy.array
+        train_y : numpy.array
                  training set labels
-        max_epochs:int
+        max_epochs : int
                    when to stop training
-        verbose: boolean
+        verbose : boolean
         """
-        for epoch in range(max_epochs):
+        for _epoch in range(max_epochs):
             errors = 0
-            #loop over every data point we are given to learn from
+            # loop over every data point we are given to learn from
             for testcase in range(len(train_y)):
                 errors += self.update_weights(
-                    train_X[testcase][0], train_X[testcase][1], train_y[testcase]
+                    train_x[testcase][0], train_x[testcase][1], train_y[testcase]
                 )
             if errors == 0:
                 break
         return errors
 
     def get_weights(self):
-        """ getter"""
+        """Getter."""
         return self.biasweight, self.weight1, self.weight2
-    
-#=======================================
+
+
+# =======================================
 def show_perceptron_landscape():
     # set up grid
-    X = np.asarray([0, 0, 0, 1, 1, 0, 1, 1])
-    X = X.reshape(4, 2)
+    x = np.asarray([0, 0, 0, 1, 1, 0, 1, 1])
+    x = x.reshape(4, 2)
     y = [0, 0, 0, 1]
     sample_points = np.empty((0, 4))
 
     # set up figure to display grid
 
-    fig = plt.figure(figsize=(6, 6))
+    _ = plt.figure(figsize=(6, 6))
     ax = plt.axes(projection="3d")
 
-    colours = ["gray", "blue", "lightblue","red", "green","darkgreen", "orange", "brown", "purple","black"]
+    colours = [
+        "gray",
+        "blue",
+        "lightblue",
+        "red",
+        "green",
+        "darkgreen",
+        "orange",
+        "brown",
+        "purple",
+        "black",
+    ]
     ax.set_xlabel("w1")
     ax.set_ylabel("w2")
-    ax.set_zlabel("errors",labelpad=0)
+    ax.set_zlabel("errors", labelpad=0)
 
     # now plot the learning curves of errors vs weights
     for run in range(10):
-        #print("run {}".format(run))
+        # print("run {}".format(run))
 
         # make new perceptron object
-        perceptron = two_input_perceptron(0.01)
-        for epoch in range(100):
+        perceptron = TwoInputPerceptron(0.01)
+        for _epoch in range(100):
             # train for one epoch
-            errors = perceptron.fit(X, y, max_epochs=1, verbose=False)
+            errors = perceptron.fit(x, y, max_epochs=1, verbose=False)
             _, w1, w2 = perceptron.get_weights()
 
             # store weights and errors for these weights
             sample_points = np.vstack((sample_points, [run, w1, w2, errors]))
             if errors == 0:
-                #print(f" finished after {epoch} epochs")
+                # print(f" finished after {epoch} epochs")
                 break
 
         # add run path to plot
-        #clear_output()
+        # clear_output()
         data = sample_points[np.where(sample_points[:, 0] == run)]
         zline = data[:, 3]
         xline = data[:, 1]
