@@ -18,7 +18,6 @@ class CombinationProblem:
         for _position in range(self.numdecisions):
             new_random_val = np.random.randint(0, num_options)
             self.answer.append(new_random_val)
-        print(f" The new code to find is {self.answer}")
 
     def evaluate(self, attempt: list) -> tuple[int, str]:
         """Tests whether a provided attempt matches the combination."""

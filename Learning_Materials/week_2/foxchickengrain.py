@@ -27,10 +27,10 @@ class FoxChickenGrain(Problem):
         for next_move in attempt:
             ok, location_reason = self.things_in_right_place(locations, next_move)
             if not ok:
-                pass
+                # pass
                 # this version ignores moves that can't be made when decoding solution
                 # uncomment line below to say those solutions are invalid
-                # return -1, location_reason
+                return -1, location_reason
 
             else:  # move things
                 next_bank = 1 if next_move < 4 else 0

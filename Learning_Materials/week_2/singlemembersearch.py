@@ -41,6 +41,9 @@ class SingleMemberSearch:
         self.verbose: bool = verbose
         self.problem: Problem = problem
         self.constructive = constructive
+        self.trials = 0
+        self.solved = False
+
         if not constructive:
             self.numdecisions = problem.numdecisions
         self.algorithm: str = "not set"
@@ -63,8 +66,11 @@ class SingleMemberSearch:
 
         # PS Test ( working_candidate)        Problem-specific code
         #   if we start with an empty solution we assume it is ok
-        working_candidate.quality = 0
-        working_candidate.meets_constraints = True
+        quality, _ = self.problem.evaluate(working_candidate.variable_values)
+        if quality == 1:
+            self.trials = 1
+            self.result = working_candidate.variable_values
+            self.solved = True
 
         # PS AppendToOpenList(working_candidate)
         self.open_list.append(working_candidate)
@@ -123,11 +129,12 @@ class SingleMemberSearch:
         -------
         True/False for success or failure
         """
-
-        attempts = 0
+        attempts = 1  # used 1 in init
 
         # PS  WHILE IsNotEmpty( open_list) DO
-        while attempts < self.max_attempts and len(self.open_list) > 0:
+        while (
+            attempts < self.max_attempts and len(self.open_list) > 0 and not self.solved
+        ):
             if self.verbose:
                 print(
                     f"Iteration {attempts} there are "
@@ -149,7 +156,8 @@ class SingleMemberSearch:
 
                     else:  # perturbative changes existing values
                         neighbour.variable_values[pos] = newval
-                        if self.already_seen(neighbour):
+                        oldval = working_candidate.variable_values[pos]
+                        if self.already_seen(neighbour) or newval == oldval:
                             continue  # skip retesting for efficiency
 
                     # -- TEST --#
@@ -163,15 +171,13 @@ class SingleMemberSearch:
                     # PS IF status IS AtGoal THEN Return(SUCCESS)
                     # for decision problems this means quality==1
                     if neighbour.quality == 1:
-                        print(
-                            f"goal found after {attempts} trials"
-                            " and stored in self.result"
-                        )
+                        self.trials = attempts
                         self.result = neighbour.variable_values
-                        return True
+                        self.solved = True
+                        # return True
 
                     # PS ELSE IF status IS BREAKS_CONSTRAINTS THEN
-                    if neighbour.quality == -1:
+                    elif neighbour.quality == -1:
                         if self.verbose:
                             print(
                                 f"discarding invalid solution {neighbour.variable_values}: "
@@ -194,5 +200,6 @@ class SingleMemberSearch:
             self.closed_list.append(working_candidate)
 
         # while loop has ended
-        print("failed to find solution to the problem in the time allowed!")
-        return False
+        if not self.solved:
+            print("failed to find solution to the problem in the time allowed!")
+        return self.solved
