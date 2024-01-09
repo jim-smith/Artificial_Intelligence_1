@@ -1,4 +1,4 @@
-import numpy as np
+import random
 
 
 class CombinationProblem:
@@ -8,21 +8,25 @@ class CombinationProblem:
     """
 
     def __init__(self, tumblers: int = 4, num_options: int = 10):
-        """Create a new instance with a random solution."""
-        self.answer = []
-        self.numdecisions = tumblers
-        self.num_options = num_options
-        self.value_set = []
-        for val in range(self.num_options):
-            self.value_set.append(val)
-        for _position in range(self.numdecisions):
-            new_random_val = np.random.randint(0, num_options)
-            self.answer.append(new_random_val)
+        """Create a new instance with a random solution.
+
+        Parameters
+        ----------
+        tumblers : int   number of wheels in the lock
+        num_options : int.  number of different positions each wheel can be in
+        """
+
+        self.numdecisions = tumblers  # how many decisions *must* valid solution specify
+        self.num_options = num_options  # how many values can each decision take
+        self.value_set = list(range(0, num_options))
+
+        # use random.choices to create a list holding the combination to be guessed
+        self.answer = random.choices(self.value_set, k=self.numdecisions)
 
     def evaluate(self, attempt: list) -> tuple[int, str]:
         """Tests whether a provided attempt matches the combination."""
 
-        try:
+        try:  # use try ...except with assertions to make our code more robust
             assert (
                 len(attempt) == self.numdecisions
             )  # stop here if attempt is wrong length

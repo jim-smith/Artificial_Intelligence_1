@@ -1,10 +1,20 @@
-from problem import Problem
+"""
+Class: FoxChickenGrain(Problem).
 
-Debug = False
+Author: james.smith@uwe.ac.uk 2024
+"""
+
+from problem import Problem
 
 
 class FoxChickenGrain(Problem):
-    """Class for the fox-chicken-grain problem."""
+    """
+    Class for the fox-chicken-grain problem.
+
+    Attributes
+    ----------
+    self.value_set
+    """
 
     def __init__(self):
         self.value_set = [0, 1, 2, 3, 4, 5, 6, 7]
@@ -18,18 +28,27 @@ class FoxChickenGrain(Problem):
             "bc_10",
             "bf_10",
         ]
+        self.numdecisions: int = -1  # not fixed, one or more moves
 
     def evaluate(self, attempt: list) -> tuple[int, str]:
-        # runs through the moves stopping as soon as there is a problem
+        """
+        Runs through the moves stopping as soon as there is a problem.
+
+        Parameters
+        ----------
+        attempt (list) : sequence of valid moves representing a solution
+
+        Returns
+        -------
+        integer quality : -1 = invalid, 0 = valid, 1 = valid and reaches goal state
+        string  reason why solution is invalid
+        """
         # all start on bank 0
         locations: dict = {"fox": 0, "chicken": 0, "grain": 0, "boat": 0}
 
         for next_move in attempt:
             ok, location_reason = self.things_in_right_place(locations, next_move)
             if not ok:
-                # pass
-                # this version ignores moves that can't be made when decoding solution
-                # uncomment line below to say those solutions are invalid
                 return -1, location_reason
 
             else:  # move things
@@ -58,7 +77,12 @@ class FoxChickenGrain(Problem):
         return 0, ""
 
     def display(self, attempt: list) -> str:
-        """Outputs a candidate solution as a series of moves.""" ""
+        """Outputs a candidate solution as a series of moves.
+
+        Parameters
+        ----------
+        attempt(list) : the sequence of moves encoded as values from self.value_set
+        """
         len(attempt)
         movelist = ""
         for move in attempt:
@@ -66,18 +90,25 @@ class FoxChickenGrain(Problem):
         return movelist
 
     def things_in_right_place(self, locations: dict, move: int) -> tuple[bool, str]:
-        """Checks whether things are in the right place for the proposed move."""
+        """
+        Checks whether things are in the right place for the proposed move.
+
+        Parameters
+        ----------
+        locations (dict) : holds where the boat,fox,chicken and grain are
+        move (int) : value from value_set representing the next move
+
+        Returns
+        -------
+        bool : could move be made?
+        str : empty, or the reason why it could not be made.
+        """
 
         ok = True
         reason = ""
         pair_to_move = move % 4
         leaving_bank = move // 4
-        if Debug:
-            print(
-                f" move {move} pair {pair_to_move} "
-                f"leaving {leaving_bank} "
-                f"locations {locations}"
-            )
+
         # boat always has to be in right place
         if leaving_bank != locations["boat"]:
             reason = "boat is in wrong place "

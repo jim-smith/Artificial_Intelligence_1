@@ -27,31 +27,29 @@ class SingleMemberSearch:
 
         Parameters
         ----------
-        verbose : bool
-            the level of feedback
-        constructive : bool
-            can solutions have different lengths (True) or not(False)
         problem : Problem
             the specific instance of a problem to be solved
-        max_attempts : int
+        verbose : bool (optional)
+            the level of feedback
+        constructive : bool (optional)
+            can solutions have different lengths (True) or not(False)
+        max_attempts : int (optional)
             maximum number of solutions to test (to avoid endless loops)
         """
 
-        # implementation specific storage
+        # Store parameters as instance variables
         self.verbose: bool = verbose
         self.problem: Problem = problem
         self.constructive = constructive
+        self.max_attempts: int = max_attempts
+        self.algorithm: str = "not set"
+
+        # Implementation specific storage
         self.trials = 0
         self.solved = False
-
-        if not constructive:
-            self.numdecisions = problem.numdecisions
-        self.algorithm: str = "not set"
-        self.max_attempts: int = max_attempts
         self.result: list = []
-        # list of positions to be changed durinh search
-        self.positions = [-1] if constructive else list(range(0, self.numdecisions))
-
+        # list of positions to be changed during search
+        self.positions = [-1] if constructive else list(range(0, problem.numdecisions))
         # PS Set open_list, closed_list ← EmptyList
         self.open_list: list = []
         self.closed_list: list = []
@@ -61,13 +59,14 @@ class SingleMemberSearch:
         # for constructive we start with no moves, depth 0,
         # otherwise start with first valid value in every position
         if not constructive:
-            newlist = [problem.value_set[0]] * problem.numdecisions
-            working_candidate.variable_values = newlist
+            firstval = problem.value_set[0]
+            working_candidate.variable_values = [firstval] * problem.numdecisions
 
         # PS Test ( working_candidate)        Problem-specific code
-        #   if we start with an empty solution we assume it is ok
-        quality, _ = self.problem.evaluate(working_candidate.variable_values)
-        if quality == 1:
+        working_candidate.quality, _ = self.problem.evaluate(
+            working_candidate.variable_values
+        )
+        if working_candidate.quality == 1:  # lucky guess
             self.trials = 1
             self.result = working_candidate.variable_values
             self.solved = True
@@ -75,8 +74,12 @@ class SingleMemberSearch:
         # PS AppendToOpenList(working_candidate)
         self.open_list.append(working_candidate)
 
+    # ============= this function defines which algorithm is being used ================
     def select_and_move_from_openlist(self, algorithm: str) -> CandidateSolution:
-        """Void in superclass
+        """
+        Not intended to be used in super class,
+        so throws an assertion if not over-ridden.
+
         In sub-classes should implement different algorithms
         depending on what item it picks from open_list
         and what it then does to the open list.
@@ -90,7 +93,7 @@ class SingleMemberSearch:
         -------
         next working candidate (solution) taken from open list
         """
-
+        dummy = CandidateSolution()
         errmsg = (
             "The super class is not intended to be called directly.\n"
             "You should call a sub-class where:\n"
@@ -98,8 +101,9 @@ class SingleMemberSearch:
             " - and get_next_item() is defined.\n"
         )
         assert algorithm == "not set", errmsg
-        return self.open_list[0]
+        return dummy
 
+    # =========== Helper function to avoid duplicating effort ====================
     def already_seen(self, attempt: CandidateSolution) -> bool:
         """Checks is an attempt is already in a list."""
         seen = False
@@ -116,38 +120,32 @@ class SingleMemberSearch:
                     break
         return seen
 
-    def is_in_closedlist(self, attempt: CandidateSolution) -> bool:
-        """Checks is an attempt is already in a list."""
-        seen = False
-
-        return seen
-
+    # =========== the main search loop ======================================
     def run_search(self) -> bool:
         """The main loop for single member search.
-
-        Returns
-        -------
-        True/False for success or failure
+        Returns True/False for success or failure.
         """
-        attempts = 1  # used 1 in init
+        self.trials = 1  # used 1 in init
 
         # PS  WHILE IsNotEmpty( open_list) DO
+        # add a couple of other conditions to provide early stopping
         while (
-            attempts < self.max_attempts and len(self.open_list) > 0 and not self.solved
+            self.trials < self.max_attempts
+            and len(self.open_list) > 0
+            and not self.solved
         ):
             if self.verbose:
-                print(
-                    f"Iteration {attempts} there are "
-                    f"{len(self.open_list)} candidates on the openList"
-                )
+                print(f"{len(self.open_list)} candidates on the openList")
 
             # PS working_candidate <- SelectAndMoveFromOpenList(algorithm_name)
             working_candidate = self.select_and_move_from_openlist(self.algorithm)
 
             # PS FOR sample in SAMPLE_SIZE DO
+
             for pos in self.positions:
                 for newval in self.problem.value_set:
-                    # -- GENERATE--#
+                    # ==== GENERATE === #
+                    # make deepcopy so the original is not changed
                     neighbour = deepcopy(working_candidate)
 
                     # PS neighbour ← ApplyMoveOperator (working_candidate)
@@ -157,45 +155,23 @@ class SingleMemberSearch:
                     else:  # perturbative changes existing values
                         neighbour.variable_values[pos] = newval
                         oldval = working_candidate.variable_values[pos]
+                        # avoid retesting to be efficient
                         if self.already_seen(neighbour) or newval == oldval:
-                            continue  # skip retesting for efficiency
+                            continue
 
-                    # -- TEST --#
+                    # === TEST === #
                     # PS status ← Test ( neighbour)       Problem-specific code
                     neighbour.quality, neighbour.reason = self.problem.evaluate(
                         neighbour.variable_values
                     )
-                    attempts += 1
+                    self.trials += 1
 
-                    # -- UPDATE WORKING MEMORY --#
-                    # PS IF status IS AtGoal THEN Return(SUCCESS)
-                    # for decision problems this means quality==1
-                    if neighbour.quality == 1:
-                        self.trials = attempts
-                        self.result = neighbour.variable_values
-                        self.solved = True
-                        # return True
+                    # === UPDATE WORKING MEMORY === #
+                    self.update_working_memory(neighbour)
+                    if self.solved:
+                        return True
 
-                    # PS ELSE IF status IS BREAKS_CONSTRAINTS THEN
-                    elif neighbour.quality == -1:
-                        if self.verbose:
-                            print(
-                                f"discarding invalid solution {neighbour.variable_values}: "
-                                f"because    {neighbour.reason}"
-                            )
-                        # PS AppendToClosedList(neighbour)
-                        self.closed_list.append(neighbour)
-
-                    # PS ELSE AppendToOpenList(neighbour)
-                    else:
-                        if self.verbose:
-                            print(
-                                "adding solution to openlist"
-                                f": to examine later: {neighbour.variable_values}"
-                            )
-                        self.open_list.append(neighbour)
-
-            # end over loop of neghbors of working candidate
+            # end over loop of neighbors of working candidate
             # PS AppendToClosedList(workingCandidate)
             self.closed_list.append(working_candidate)
 
@@ -203,3 +179,35 @@ class SingleMemberSearch:
         if not self.solved:
             print("failed to find solution to the problem in the time allowed!")
         return self.solved
+
+    # ======= updates working memory ==========================
+    def update_working_memory(self, neighbour: CandidateSolution):
+        """Update what we have learned about the problem
+        after evaluating a new candidate
+        Could have left this code in the main loop
+        but separating it out makes it easier to read.
+        """
+        # PS IF status IS AtGoal THEN Return(SUCCESS)
+        # for decision problems this means quality==1
+        if neighbour.quality == 1:
+            self.result = neighbour.variable_values
+            self.solved = True
+
+        # PS ELSE IF status IS BREAKS_CONSTRAINTS THEN
+        elif neighbour.quality == -1:
+            if self.verbose:
+                print(
+                    f"because    {neighbour.reason}"
+                    f"discarding invalid solution {neighbour.variable_values}: "
+                )
+            # PS AppendToClosedList(neighbour)
+            self.closed_list.append(neighbour)
+
+        # PS ELSE AppendToOpenList(neighbour)
+        else:
+            if self.verbose:
+                print(
+                    "adding solution to openlist"
+                    f": to examine later: {neighbour.variable_values}"
+                )
+            self.open_list.append(neighbour)
