@@ -1,33 +1,55 @@
-import numpy as np
+import random
+
+
 class CombinationProblem:
-    """ 
+    """
     Class to create simple combination lock problems
-    and report whether a guess opens the lock
+    and report whether a guess opens the lock.
+    """
+
+    def __init__(self, tumblers: int = 4, num_options: int = 10):
+        """Create a new instance with a random solution.
+
+        Parameters
+        ----------
+        tumblers : int   number of wheels in the lock
+        num_options : int.  number of different positions each wheel can be in
         """
-    def __init__(self,N:int=4,num_options:int =10):
-        """ Create a new intance with a random solution"""
-        self.answer = []
-        self.num_options=num_options
-        for position in range(N):
-            new_random_val= np.random.randint(0,num_options)
-            self.answer.append(new_random_val)
-        print(f' The new code to find is {self.answer}')
-        
-        
-    def evaluate(self, attempt:list)->bool:
-        """ Tests whether a provided attempt matches the combination"""
-        try:
-            assert len(attempt) == N # stop here if attempt is wrong length
-            for pos in range(N):
-                assert attempt[pos] >0
-                assert attempt[pos] <num_options
-                #stop if any digit is out of range
-            if attempt == self.answer :
-                return True
+
+        self.numdecisions = tumblers  # how many decisions *must* valid solution specify
+        self.num_options = num_options  # how many values can each decision take
+        self.value_set = list(range(0, num_options))
+
+        # use random.choices to create a list holding the combination to be guessed
+        self.answer = random.choices(self.value_set, k=self.numdecisions)
+
+    def evaluate(self, attempt: list) -> tuple[int, str]:
+        """Tests whether a provided attempt matches the combination."""
+
+        try:  # use try ...except with assertions to make our code more robust
+            assert (
+                len(attempt) == self.numdecisions
+            )  # stop here if attempt is wrong length
+            for val in attempt:
+                assert val in self.value_set
+            if attempt == self.answer:
+                return 1, ""
             else:
-                return False
+                return 0, ""
         except AssertionError:
-            print(f' attempt had length {len(attempt)}, should have been {N}')
-            print('or values were out of range')
-            return False
-        
+            errstr = (
+                f" attempt had length {len(attempt)}, should have been {self.numdecisions}"
+                f"or values were out of range in {attempt}"
+            )
+            return -1, errstr
+
+    def display(self, guess: list):
+        """Displays a guess at the combination
+        simple print as guess does not need any decoding.
+
+        Parameters
+        ----------
+        attempt : candidateSolution
+            object whose variable values are to be displayed
+        """
+        print(guess)
