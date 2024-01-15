@@ -6,12 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from IPython.display import clear_output
 
-
-# ======================================================
-class CandidateSolution:
-    def __init__(self):
-        self.variable_values = []
-        self.quality = 0
+from ../week_2/candidatesolution import CandidateSolution
+from ../week_2/problem import Problem
 
 
 # ==========================================================
