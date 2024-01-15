@@ -1,0 +1,230 @@
+"""Maze.py
+author @james.smith@uwe.ac.uk 2024
+class for maze as subclass of problem.
+"""
+import numpy as np
+from matplotlib import pyplot as plt
+from problem import Problem
+
+
+class Maze(Problem):
+    """Class definition for a rectangular maze problem."""
+
+    # TODO add bounds checking for valid ids
+
+    def __init__(self, mazefile: str):
+        """Constructor.
+
+        Parameter
+        ---------
+        mazefile(str)
+           name of the file holding the maze definition
+        """
+        self.numdecisions: int = -1  # not fixed, one or more moves
+        self.contents: list = []
+        self.width: int = 0
+        self.height: int = 0
+        self.start: int = 0
+        self.goal: int = 0
+        self.value_set = self.setup(mazefile)
+
+    def setup(self, mazefile: str = "", start: tuple = (0, 0), end: tuple = (10, 10)):
+        """Load a maze from a given filename.
+
+        Parameters
+        ----------
+        mazefile(str)
+            name of file gholding definition
+        start(tuple(int,int))
+             coordinates of starting position
+         end (tuple(int,int))
+             coordinates of ending position (goal)
+        """
+        self.load_from_txt(mazefile)
+        self.set_start(0, 9)
+        self.set_goal(20, 11)
+
+        self.show_maze()
+
+        # define the amount to add to the previous cellid for each move
+        # can only do this once the maze has been read in so we know how big it is!
+        self.left_move = -1
+        self.right_move = 1
+        self.up_move = -(self.last_column_id)
+        self.down_move = self.last_column_id
+        # define the set of move so we can iterate through them
+        moveset = [self.left_move, self.down_move, self.right_move, self.up_move]
+
+        return moveset
+
+    def load_from_txt(self, filename):
+        """Performs the actual file read."""
+        file = open(filename)
+        for line in file.readlines():
+            row = []
+            for c in line:
+                if c.isspace() and (c != "\n"):
+                    row.append(1)
+                elif c != "\n":
+                    row.append(0)
+            self.contents.append(row)
+        self.height = len(self.contents)
+        self.width = len(self.contents[0])
+        self.last_column_id = self.width - 1
+
+    def show_maze(self, cmap="Set1"):
+        """Prints out a maze."""
+        green = 0.3
+        yellow = 0.65
+
+        # colour start and end point
+        self.colour_cell_from_id(self.start, green)
+        self.colour_cell_from_id(self.goal, yellow)
+
+        plt.figure(figsize=(5, 5))
+        plt.imshow(self.contents, cmap=cmap, norm=None)
+        plt.xticks(np.arange(0, self.width, 2))
+        plt.yticks(np.arange(0, self.height, 2))
+
+    def set_start(self, x, y):
+        """Converts a starting location into a single integer index.
+
+        Parameters
+        ----------
+        x,y (integers)
+             coordinates on grid
+        """
+        self.start = y + self.last_column_id * x
+
+    def set_goal(self, x, y):
+        """
+        Cnverts a goal location into a single integer index.
+
+        Parameters
+        ----------
+        x,y (integers)
+        """
+        self.goal = y + self.last_column_id * x
+
+    def cellid_to_coords(self, cellid: int) -> tuple[int, int]:
+        """Converts an index back to coordinates.
+
+        Parameters
+        ----------
+        cellid(int)
+            index
+
+        Returns
+        -------
+        tuple(x coordinate,y coordianate)
+        """
+        y = cellid % (self.width - 1)
+        x = int(cellid / (self.last_column_id))
+        return x, y
+
+    def coords_to_cellid(self, x, y) -> int:
+        """
+        Converts a goal location into a single integer index.
+
+        Parameters
+        ----------
+        x,y (integers)
+
+        Returns
+        -------
+        cell_id (int)
+        """
+        cellid = y + x * (self.last_column_id)
+        return cellid
+
+    def colour_cell_from_id(self, cellid: int, colour: float):
+        """Assigns colour to cell in rectangular representation of maze.
+
+        Parameters
+        ----------
+        cellid(int)
+             index in list representation
+        colour (float)
+        """
+        x, y = self.cellid_to_coords(cellid)
+        self.contents[x][y] = colour
+
+    def evaluate(self, solution: list) -> tuple[int, str]:
+        """
+        Method to give feedback on the value of a candidate solution.
+
+        Parameters
+        ----------
+        solution (list)
+            the current attempt being tested
+            Represented as a path of coordinates
+
+        Returns
+        -------
+        int
+            the quality with -1 for invalid
+        string
+            the reason why a solution is invalid
+        """
+        reason = ""
+        quality = 1
+
+        # we only need to look at the last position for checking
+        position = solution[-1]
+
+        if len(solution) > 1:
+            lastposition = solution[-2]
+            xold, yold = self.cellid_to_coords(lastposition)
+
+        # check is in the maze
+        xnew, ynew = self.cellid_to_coords(position)
+        if (
+            (xnew < 0)
+            or (xnew > self.last_column_id)
+            or (ynew < 0)
+            or (ynew > (self.height - 1))
+        ):
+            reason = "move takes route out of the maze"
+            quality = -1
+
+        # and isn't a wall- which are coded as zero
+        elif self.contents[xnew][ynew] == 0:
+            reason = (
+                f"move from {xold},{yold} to {xnew},{ynew} takes route through wall"
+            )
+            quality = -1
+
+        # and isn't going backwards
+        elif len(solution) > 2 and position == solution[-3]:
+            reason = "move goes back on itself"
+            quality = -1
+
+        else:  # valid move
+            # get coords of goal
+            x2, y2 = self.cellid_to_coords(self.goal)
+
+            # calculate manhattan distance from pythagoras theorem
+            np.sqrt((xnew - x2) * (xnew - x2) + (ynew - y2) * (ynew - y2))
+            manhattan_distance = np.abs(xnew - x2) + np.abs(ynew - y2)
+
+            quality = manhattan_distance
+
+        return quality, reason
+
+    def is_at_goal(self, solution: list) -> bool:
+        """Says is a solution is at the maze goal.
+
+        Parameters
+        ----------
+        solution : List
+            the current attempt being tested
+            Represented as a path of coordinates
+        """
+        last_cell = solution[-1]
+        if last_cell == self.goal:
+            return True
+        else:
+            return False
+
+
+# ======================================================
