@@ -84,13 +84,14 @@ class Maze(Problem):
         self.colour_cell_from_id(self.start, green)
         self.colour_cell_from_id(self.goal, yellow)
         clear_output(wait=True)
-        plt.figure(figsize=(5, 5))
+        _ = plt.figure(figsize=(5, 5))
         plt.imshow(self.contents, cmap=cmap, norm=None)
         plt.xticks(np.arange(0, self.width, 2))
         plt.yticks(np.arange(0, self.height, 2))
+        # plt.show()
         plt.show()
 
-    def show_path(self, solution: list, refresh_rate: float = 0.01):
+    def show_path(self, solution: list, refresh_rate: float = 0.002):
         """Shows the path through a maze taken by a given solution
         and also the current open list.
         """
@@ -127,7 +128,7 @@ class Maze(Problem):
         # refresh_rate=1.0
         sleep(refresh_rate)
         clear_output(wait=True)
-        plt.figure(figsize=(5, 5))
+        _ = plt.figure(figsize=(5, 5))
         title = (
             "Current working candidate in orange.\n"
             "Blue/purple cells indicate endpoints of solutions on open/closed list."
@@ -136,6 +137,10 @@ class Maze(Problem):
         plt.axis("off")
         plt.imshow(self.contents, cmap="Set1")
         plt.show()
+        # fig.suptitle(title)
+        # fig.axis("off")
+        # fig.imshow(self.contents, cmap="Set1")
+        # fig.show()
 
     def set_start(self, x, y):
         """Converts a starting location into a single integer index.

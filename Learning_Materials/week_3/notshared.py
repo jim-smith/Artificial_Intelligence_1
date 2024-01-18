@@ -78,18 +78,21 @@ class LocalSearch(SingleMemberSearch):
 
         # get best child
         best_index = 0
-        best_so_far = self.open_list[0].quality
+        quality = self.open_list[0].quality
+        best_so_far = quality
         self.runlog += f"LS: {len(self.open_list)} children to examine\n"
         for index in range(1, len(self.open_list)):
             quality = self.open_list[index].quality
             if self.a_beats_b(quality, best_so_far):
                 best_so_far = quality
+                best_index = index
 
         next_soln = self.open_list.pop(best_index)
         self.runlog += (
             f"\t best child quality {best_so_far},\n\t best so far {self.best_so_far}\n"
         )
-
+        # clear the openlist
+        self.open_list.clear()
         # always accept first move
         if self.trials == 1:
             better: bool = True

@@ -84,7 +84,7 @@ class SingleMemberSearch:
                 working_candidate.variable_values
             )
 
-        # we want to remember quality of best soliution seen during search
+        # normally we want to remember quality of best solution seen during search
         self.best_so_far = working_candidate.quality
 
         # check for lucky first guess (only really likely for perturbative)
@@ -162,7 +162,7 @@ class SingleMemberSearch:
         # PS  WHILE IsNotEmpty( open_list) DO
         # add a couple of other conditions to provide early stopping
         while self.trials < self.max_attempts and not self.solved:
-            self.runlog += f"{len(self.open_list)} candidates on the openList"
+            self.runlog += f"{len(self.open_list)} candidates on the openList.\n"
 
             # PS working_candidate <- SelectAndMoveFromOpenList(algorithm_name)
             working_candidate = self.select_and_move_from_openlist()
@@ -171,7 +171,10 @@ class SingleMemberSearch:
                 return False
 
             # PS FOR sample in SAMPLE_SIZE DO
-
+            self.runlog += (
+                " Next iteration working candidate quality "
+                f"{working_candidate.quality}.\n"
+            )
             for pos in self.positions:
                 for newval in self.problem.value_set:
                     # ==== GENERATE === #
@@ -236,6 +239,7 @@ class SingleMemberSearch:
         else:
             self.runlog += (
                 "adding solution to openlist"
-                f": to examine later: {neighbour.variable_values}\n"
+                f": to examine later: {neighbour.variable_values}\t"
+                f" quality {neighbour.quality}\n"
             )
             self.open_list.append(neighbour)
