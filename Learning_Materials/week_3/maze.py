@@ -2,7 +2,10 @@
 author @james.smith@uwe.ac.uk 2024
 class for maze as subclass of problem.
 """
+from time import sleep
+
 import numpy as np
+from IPython.display import clear_output
 from matplotlib import pyplot as plt
 from problem import Problem
 
@@ -52,7 +55,7 @@ class Maze(Problem):
         self.right_move = 1
         self.up_move = -(self.last_column_id)
         self.down_move = self.last_column_id
-        # define the set of move so we can iterate through them
+        # define the set of moves so we can iterate through them
         moveset = [self.left_move, self.down_move, self.right_move, self.up_move]
 
         return moveset
@@ -80,11 +83,59 @@ class Maze(Problem):
         # colour start and end point
         self.colour_cell_from_id(self.start, green)
         self.colour_cell_from_id(self.goal, yellow)
-
+        clear_output(wait=True)
         plt.figure(figsize=(5, 5))
         plt.imshow(self.contents, cmap=cmap, norm=None)
         plt.xticks(np.arange(0, self.width, 2))
         plt.yticks(np.arange(0, self.height, 2))
+        plt.show()
+
+    def show_path(self, solution: list, refresh_rate: float = 0.01):
+        """Shows the path through a maze taken by a given solution
+        and also the current open list.
+        """
+        # set up the colour scheme
+        green = 0.3
+        yellow = 0.65
+        blue = 0.2
+        orange = 0.5
+        purple = 0.4
+
+        # clear previous paths
+        for row in range(len(self.contents)):
+            for cell in range(len(self.contents[row])):
+                if self.contents[row][cell] == orange:
+                    self.contents[row][cell] = purple
+                if self.contents[row][cell] == blue:
+                    self.contents[row][cell] = purple
+
+        startx, starty = self.cellid_to_coords(self.start)
+        endx, endy = self.cellid_to_coords(self.goal)
+
+        # colour start and goal point
+        self.colour_cell_from_id(self.start, green)
+        self.colour_cell_from_id(self.goal, yellow)
+
+        # put the path on the current solution in orange
+        for position in solution:
+            self.colour_cell_from_id(position, orange)
+
+        # mark endpoint of path in blue
+        self.colour_cell_from_id(solution[-1], blue)
+
+        # leave the old picture on screen for long enough to see then refresh
+        # refresh_rate=1.0
+        sleep(refresh_rate)
+        clear_output(wait=True)
+        plt.figure(figsize=(5, 5))
+        title = (
+            "Current working candidate in orange.\n"
+            "Blue/purple cells indicate endpoints of solutions on open/closed list."
+        )
+        plt.title(title)
+        plt.axis("off")
+        plt.imshow(self.contents, cmap="Set1")
+        plt.show()
 
     def set_start(self, x, y):
         """Converts a starting location into a single integer index.
@@ -169,11 +220,22 @@ class Maze(Problem):
         reason = ""
         quality = 1
 
-        # we only need to look at the last position for checking
-        position = solution[-1]
+        # no score for a solution that has not started yet
+        if len(solution) == 0:
+            return 0, ""
 
-        if len(solution) > 1:
-            lastposition = solution[-2]
+        # decode solution to path
+        path = [self.start]
+
+        for move in range(len(solution)):
+            change = solution[move]
+            newpos = path[-1] + change
+            path.append(newpos)
+        # we only need to look at the last position for checking
+        position = path[-1]
+
+        if len(path) > 1:
+            lastposition = path[-2]
             xold, yold = self.cellid_to_coords(lastposition)
 
         # check is in the maze
@@ -195,8 +257,8 @@ class Maze(Problem):
             quality = -1
 
         # and isn't going backwards
-        elif len(solution) > 2 and position == solution[-3]:
-            reason = "move goes back on itself"
+        elif len(path) > 2 and position == path[-3]:
+            reason = "path goes backwards"
             quality = -1
 
         else:  # valid move
@@ -208,7 +270,10 @@ class Maze(Problem):
             manhattan_distance = np.abs(xnew - x2) + np.abs(ynew - y2)
 
             quality = manhattan_distance
-
+            self.show_path(path)
+            # print(f'solution {solution} decodes to {path}\n'
+            #      f'  score is {quality} because{reason}'
+            #      )
         return quality, reason
 
     def is_at_goal(self, solution: list) -> bool:

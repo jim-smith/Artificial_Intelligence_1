@@ -11,6 +11,9 @@ from copy import deepcopy
 from candidatesolution import CandidateSolution
 from problem import Problem
 
+# this needs to be bigger than the quality is ever likely to be
+BIGNUM = 10000000
+
 
 class SingleMemberSearch:
     """Common framework for single member search on graphs."""
@@ -18,9 +21,10 @@ class SingleMemberSearch:
     def __init__(
         self,
         problem: Problem,
-        verbose: bool = False,
         constructive: bool = False,
         max_attempts: int = 50,
+        minimise=True,
+        target_quality=1,
     ):
         """Constructor for search algorithm in a given problem.
         starts a search with an empty solution on the open list.
@@ -29,33 +33,40 @@ class SingleMemberSearch:
         ----------
         problem : Problem
             the specific instance of a problem to be solved
-        verbose : bool (optional)
-            the level of feedback
         constructive : bool (optional)
             can solutions have different lengths (True) or not(False)
         max_attempts : int (optional)
             maximum number of solutions to test (to avoid endless loops)
+        minimise : bool
+            whether the aim is find a solution with  minimum or maximum quality
+        target_quality : int
+            sometimes we know the best possible quality
+            (e.g. 100% accuracy)
         """
 
         # Store parameters as instance variables
-        self.verbose: bool = verbose
         self.problem: Problem = problem
         self.constructive = constructive
         self.max_attempts: int = max_attempts
-        self.algorithm: str = "not set"
+        self.minimise = minimise
 
         # Implementation specific storage
-        self.trials = 0
-        self.solved = False
-        self.result: list = []
-        # list of positions to be changed during search
+        self.runlog = ""  # any messages we want to store"
+        self.trials = 0  # number of attempts so far
+        self.solved = False  # have we resched the goal?
+        self.best_so_far = BIGNUM
+        self.result: list = []  # best solution found
+        # list of positions to be changed during search loop
+        # i.e. just the last for constructive or all for perturbative
         self.positions = [-1] if constructive else list(range(0, problem.numdecisions))
+
         # PS Set open_list, closed_list ← EmptyList
         self.open_list: list = []
         self.closed_list: list = []
 
         # PS working_candidate ← Initialise (CandidateSolution)
         working_candidate = CandidateSolution()
+
         # for constructive we start with no moves, depth 0,
         # otherwise start with first valid value in every position
         if not constructive:
@@ -66,7 +77,18 @@ class SingleMemberSearch:
         working_candidate.quality, _ = self.problem.evaluate(
             working_candidate.variable_values
         )
-        if working_candidate.quality == 1:  # lucky guess
+        if self.constructive and self.minimise:
+            working_candidate.quality = BIGNUM
+        else:
+            working_candidate.quality, _ = self.problem.evaluate(
+                working_candidate.variable_values
+            )
+
+        # we want to remember quality of best soliution seen during search
+        self.best_so_far = working_candidate.quality
+
+        # check for lucky first guess (only really likely for perturbative)
+        if working_candidate.quality == target_quality:  # lucky guess
             self.trials = 1
             self.result = working_candidate.variable_values
             self.solved = True
@@ -74,8 +96,23 @@ class SingleMemberSearch:
         # PS AppendToOpenList(working_candidate)
         self.open_list.append(working_candidate)
 
+    def __str__(self) -> str:
+        """Returns name of algorithm
+        not set in superclass.
+        """
+        return "not set"
+
+    def a_beats_b(self, a: int, b: int) -> bool:
+        """Comparison taking into account whether we are minimising."""
+        better: bool = False
+        if a < b and self.minimise:
+            better = True
+        if a > b and not self.minimise:
+            better = True
+        return better
+
     # ============= this function defines which algorithm is being used ================
-    def select_and_move_from_openlist(self, algorithm: str) -> CandidateSolution:
+    def select_and_move_from_openlist(self) -> CandidateSolution:
         """
         Not intended to be used in super class,
         so throws an assertion if not over-ridden.
@@ -83,11 +120,6 @@ class SingleMemberSearch:
         In sub-classes should implement different algorithms
         depending on what item it picks from open_list
         and what it then does to the open list.
-
-        Parameters
-        ----------
-        algorithm : str
-          the name of the algorithm being applied
 
         Returns
         -------
@@ -100,7 +132,7 @@ class SingleMemberSearch:
             "  - the algorithm name is defined\n"
             " - and get_next_item() is defined.\n"
         )
-        assert algorithm == "not set", errmsg
+        assert self.__str__() == "not set", errmsg
         return dummy
 
     # =========== Helper function to avoid duplicating effort ====================
@@ -129,16 +161,14 @@ class SingleMemberSearch:
 
         # PS  WHILE IsNotEmpty( open_list) DO
         # add a couple of other conditions to provide early stopping
-        while (
-            self.trials < self.max_attempts
-            and len(self.open_list) > 0
-            and not self.solved
-        ):
-            if self.verbose:
-                print(f"{len(self.open_list)} candidates on the openList")
+        while self.trials < self.max_attempts and not self.solved:
+            self.runlog += f"{len(self.open_list)} candidates on the openList"
 
             # PS working_candidate <- SelectAndMoveFromOpenList(algorithm_name)
-            working_candidate = self.select_and_move_from_openlist(self.algorithm)
+            working_candidate = self.select_and_move_from_openlist()
+            if working_candidate is None:
+                self.runlog += "ran out of promising solutions to test\n"
+                return False
 
             # PS FOR sample in SAMPLE_SIZE DO
 
@@ -177,7 +207,7 @@ class SingleMemberSearch:
 
         # while loop has ended
         if not self.solved:
-            print("failed to find solution to the problem in the time allowed!")
+            self.runlog += "failed to find solution to the problem in the time allowed!"
         return self.solved
 
     # ======= updates working memory ==========================
@@ -194,20 +224,18 @@ class SingleMemberSearch:
             self.solved = True
 
         # PS ELSE IF status IS BREAKS_CONSTRAINTS THEN
-        elif neighbour.quality == -1:
-            if self.verbose:
-                print(
-                    f"because    {neighbour.reason}"
-                    f"discarding invalid solution {neighbour.variable_values}: "
-                )
+        elif neighbour.reason != "":
+            self.runlog += (
+                f"discarding invalid solution {neighbour.variable_values} "
+                f"because    {neighbour.reason}\n"
+            )
             # PS AppendToClosedList(neighbour)
             self.closed_list.append(neighbour)
 
         # PS ELSE AppendToOpenList(neighbour)
         else:
-            if self.verbose:
-                print(
-                    "adding solution to openlist"
-                    f": to examine later: {neighbour.variable_values}"
-                )
+            self.runlog += (
+                "adding solution to openlist"
+                f": to examine later: {neighbour.variable_values}\n"
+            )
             self.open_list.append(neighbour)

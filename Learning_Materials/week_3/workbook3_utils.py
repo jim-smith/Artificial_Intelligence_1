@@ -1,59 +1,45 @@
-import copy
-from time import sleep
-
 import ipywidgets as widgets
 import matplotlib.pyplot as plt
-from candidatesolution import CandidateSolution
+import numpy as np
+
+# from candidatesolution import CandidateSolution
 from IPython.display import clear_output
-from maze import Maze
+from matplotlib import cm
+
+# from matplotlib.ticker import FormatStrFormatter, LinearLocator
+# from maze import Maze
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 
 
 # ======================================================
-def display_search_state(
-    the_maze: Maze,
-    current: CandidateSolution,
-    open_list,
-    algname,
-    steps,
-    refresh_rate=0.0075,
-):
-    # make a copy of the maze so we can colour in the paths
-    newmaze = copy.deepcopy(the_maze)
+def make_different_landscapes_plot():
+    """Makes illustrative plot of 2 landscapes
+    created from the same underlying function
+    but plotted (i.e. quality function) at different levels of precision.
+    """
 
-    # set up the colour scheme
-    green = 0.3
-    yellow = 0.65
-    blue = 0.2
-    orange = 0.5
-
-    startx, starty = newmaze.cellid_to_coords(newmaze.start)
-    endx, endy = newmaze.cellid_to_coords(newmaze.goal)
-
-    # colour start and end point
-    newmaze.colour_cell_from_id(newmaze.start, green)
-    newmaze.colour_cell_from_id(newmaze.goal, yellow)
-
-    # put the path on the current solution in orange
-    for position in current.variable_values:
-        newmaze.colour_cell_from_id(position, orange)
-
-    # put the endpoints of each partial solution in the openlist in blue
-    for item in open_list:
-        lastpos = item.variable_values[-1]
-        newmaze.colour_cell_from_id(lastpos, blue)
-
-    # leave the old picture on screen for long enough to see then refresh
-    sleep(refresh_rate)
-    clear_output(wait=True)
-    plt.figure(figsize=(5, 5))
-    title = f"progress for {algname} after testing {steps} solutions."
-    title = title + "\n Current working candidate in orange.\n"
-    title = title + "Blue cells indicate solutions on openList"
-    plt.title(title)
-    plt.axis("off")
-    plt.imshow(newmaze.contents, cmap="Set1")
-    plt.show()
-    # display(fig)
+    # Make data.
+    x = np.arange(-5, 5, 0.01)
+    y = np.arange(-5, 5, 0.01)
+    x, y = np.meshgrid(x, y)
+    r = np.sqrt(x**2 + x**2)
+    z1 = np.round(np.sin(r) * 2, 0)
+    z2 = np.round(np.sin(r) * 2, 1)
+    # Plot the surfaces.
+    # z1 (left) only has integer parts
+    # z2 (right) has one decimal place
+    fig = plt.figure(figsize=(16, 12))
+    ax1 = fig.add_subplot(121, projection="3d")
+    ax2 = fig.add_subplot(122, projection="3d")
+    fig.suptitle(
+        "Example search landscape with different precision for quality function"
+    )
+    ax1.set_title("Integer ")
+    ax2.set_title("float with one decimal place ")
+    _ = ax1.plot_surface(x, y, z1, cmap=cm.jet, antialiased=True)
+    _ = ax2.plot_surface(x, y, z2, cmap=cm.jet, antialiased=True)
+    plt.tight_layout()
+    plt.savefig("figures/2landscapes.png")
 
 
 # ================================================================
