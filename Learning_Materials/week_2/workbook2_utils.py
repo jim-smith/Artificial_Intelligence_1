@@ -5,139 +5,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from IPython.display import clear_output
 
-# ======================================================
-# class CandidateSolution:
-#    def __init__(self):
-#        self.variable_values = []
-#        self.quality = 0
-#        self.depth = 0
-
-
-# ======================================================
-# python 3 lets us define the types of parameters if we want to
-# def is_atgoal(soln: CandidateSolution):
-#    if soln.quality == 1:
-#        return True
-#    else:
-#        return False
-
-
-# ======================================================
-
-# define the encoding we will use for moves
-# move_names = [
-#    "empty_0to1",
-#    "Grain_0to1",
-#    "Chicken_0to1",
-#    "Fox_0to1",
-#    "empty_1to0",
-#    "Grain_1to0",
-#    "Chicken_1to0",
-#    "Fox_1to0",
-# ]
-
-# moveNames = ["b01","G01","C01","F01","b10","G10", "C10", "F10"]
-
-
-# =====================================================
-# def evaluate(soln: CandidateSolution) -> str:
-#    location = [0, 0, 0, 0]
-#    reason = ""
-#    boat = 3
-#    grain = 2
-#    chicken = 1
-#    fox = 0
-#    for move in soln.variable_values:
-#        if move == 0:
-#            if location[boat] != 0:
-#                reason = "boat is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = 1
-#        elif move == 1:
-#            if location[boat] != 0 or location[grain] != 0:
-#                reason = "boat and/or grain is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = location[grain] = 1
-#        elif move == 2:
-#            if location[boat] != 0 or location[chicken != 0]:
-#                reason = "boat and/or chicken is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = location[chicken] = 1
-#        elif move == 3:
-#            if location[boat] != 0 or location[fox] != 0:
-#                reason = " boat and/or fox is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = location[fox] = 1
-#        elif move == 4:
-#            if location[boat] != 1:
-#                reason = "boat is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = 0
-#        elif move == 5:
-#            if location[boat] != 1 or location[grain] != 1:
-#                reason = "boat and/or grain is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = location[grain] = 0
-#        elif move == 6:
-#            if location[boat] != 1 or location[chicken != 1]:
-#                reason = " boat and/or chicken is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = location[chicken] = 0
-#        elif move == 7:
-#            if location[boat] != 1 or location[fox] != 1:
-#                reason = " boat and/or fox is in wrong place"
-#                soln.quality = -1
-#                break
-#            else:
-#                location[boat] = location[fox] = 0
-
-#         else:
-#             print("error- unknown move encountered: " + str(move))
-
-#         # check for infeasible partial solutions
-#         if location[boat] != location[chicken]:
-#             if location[chicken] == location[fox]:
-#                 reason = "fox eats chicken"
-#                 soln.quality = -1
-#                 break
-#             if location[chicken] == location[grain]:
-#                 reason = "chicken eats grain"
-#                 soln.quality = -1
-#                 break
-#         # check for goal
-#         if location == [1, 1, 1, 1]:
-#             soln.quality = 1
-#             print("goal reached")
-#             break
-#     return reason
-
-
-# ==================================================================
-# def translate_solution_as_string(soln: CandidateSolution):
-#     len(soln.variable_values)
-#     movelist = ""
-#     for move in soln.variable_values:
-#         # movelist = movelist + " -> " + moveNames [move]
-#         movelist = movelist + "->" + move_names[move]
-#     return movelist
-
-
-# ================================================================
-
 
 def create_multiple_choice_widget(description, options, correct_answer_index):
     # if correct_answer not in options:
@@ -185,7 +52,7 @@ q0 = create_multiple_choice_widget(q0text, yesno, no)
 #
 #
 q1text = (
-    "Lines 157--159 of the code implementation singlemembersearch.py extend the pseudocode.\n"
+    "Lines 191--193 of the code implementation singlemembersearch.py extend the pseudocode.\n"
     "Which reason do you think is most likely?"
 )
 q1options = [
@@ -197,7 +64,7 @@ q1 = create_multiple_choice_widget(q1text, q1options, 2)
 #
 #
 q2text = (
-    "Lines 157--159 of singlemembersearch.py "
+    "Lines 191--193 of singlemembersearch.py "
     "prevent duplicate **encoded** representations of candidate solutions.\n"
     "For a constructive search, "
     "will this guarantee there are no loops?"
