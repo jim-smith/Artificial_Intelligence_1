@@ -79,7 +79,7 @@ class LocalSearch(SingleMemberSearch):
         # get best child
         best_index = 0
         quality = self.open_list[0].quality
-        best_so_far = quality
+        best_so_far: int = quality
         self.runlog += f"LS: {len(self.open_list)} children to examine\n"
         for index in range(1, len(self.open_list)):
             quality = self.open_list[index].quality
@@ -111,7 +111,7 @@ class BestFirstSearch(SingleMemberSearch):
     """Implementation of BestFirstSearch."""
 
     def __str__(self):
-        return "best first"
+        return "best-first"
 
     def select_and_move_from_openlist(self) -> CandidateSolution:
         """Implements Best First by finding, popping and returning member from openlist
@@ -128,7 +128,7 @@ class BestFirstSearch(SingleMemberSearch):
             return None
         # look at quality of first position
         bestindex = 0
-        best_so_far = self.open_list[0].quality
+        best_so_far: int = self.open_list[0].quality
 
         # loop through other looking for something better
         for index in range(1, len(self.open_list)):
@@ -146,7 +146,7 @@ class AStarSearch(SingleMemberSearch):
     """Implementation of A Star  search."""
 
     def __str__(self):
-        return "A star"
+        return "A Star"
 
     def select_and_move_from_openlist(self) -> CandidateSolution:
         """Implements AStar by finding, popping and returning member from openlist

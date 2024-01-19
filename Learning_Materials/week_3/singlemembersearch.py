@@ -54,7 +54,7 @@ class SingleMemberSearch:
         self.runlog = ""  # any messages we want to store"
         self.trials = 0  # number of attempts so far
         self.solved = False  # have we resched the goal?
-        self.best_so_far = BIGNUM
+        self.best_so_far: int = BIGNUM
         self.result: list = []  # best solution found
         # list of positions to be changed during search loop
         # i.e. just the last for constructive or all for perturbative

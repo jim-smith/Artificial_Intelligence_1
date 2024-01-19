@@ -45,15 +45,16 @@ def make_different_landscapes_plot():
 # ================================================================
 
 
-def create_multiple_choice_widget(description, options, correct_answer):
-    if correct_answer not in options:
-        options.append(correct_answer)
+def create_multiple_choice_widget(description, options, correct_answer_index):
+    # if correct_answer not in options:
+    #    options.append(correct_answer)
+    layout = widgets.Layout(width="auto", height="auto")  # set width and height
 
-    correct_answer_index = options.index(correct_answer)
+    # correct_answer_index = options.index(correct_answer)
 
     radio_options = [(words, i) for i, words in enumerate(options)]
     alternative = widgets.RadioButtons(
-        options=radio_options, description="", disabled=False
+        options=radio_options, description="", disabled=False, layout=layout
     )
 
     description_out = widgets.Output()
@@ -80,36 +81,69 @@ def create_multiple_choice_widget(description, options, correct_answer):
 
 
 Q1 = create_multiple_choice_widget(
-    "What type of search is implemented?",
+    "What type of search did you implement to solve the maze?",
     ["Constructive", "Perturbative"],
-    "Constructive",
+    0,
 )
+
 Q2 = create_multiple_choice_widget(
     "Which algorithm found a path to the goal state after examining the fewest solutions?",
     ["Depth-First", "Breadth-First", "Best-First", "Astar"],
-    "Depth-First",
+    0,
 )
 Q3 = create_multiple_choice_widget(
     "How did the quality of solutions found by depth and breadth first compare?",
     ["depth-first was better", "breadth-first was better", "they were the same"],
-    "breadth-first was better",
+    1,
 )
 Q4 = create_multiple_choice_widget(
     "Of the algorithms that found the optimal solution, which examined fewest solutions?",
     ["Depth-First", "Breadth-First", "Best-First", "Astar"],
-    "Astar",
+    3,
 )
 Q5 = create_multiple_choice_widget(
     "Does depth-first successfully solve all instances of this problem?",
     ["yes", "no"],
-    "no",
+    1,
 )
 text6 = (
-    "Does the rank-order of efficiency for "
+    "Does the rank-order of efficiency (number of solutions examined)\nfor "
     "the complete algorithms depend on the problem instance?"
 )
 Q6 = create_multiple_choice_widget(
     text6,
     ["yes", "no"],
-    "yes",
+    0,
 )
+
+Q7 = create_multiple_choice_widget(
+    (
+        "Would changing the order of moves from [left,down,right,up] "
+        "in maze.value_set  affect search behaviour?"
+    ),
+    ["yes", "no"],
+    0,
+)
+
+text8 = (
+    "A perturbative approach would assume a fixed maximum path length n.\n"
+    "Which of issues below might cause such an approach to fail?"
+)
+options8 = [
+    "1: Choosing a value of n that is shorter than the best possible path",
+    (
+        "2: It would take too long: "
+        "the neighbourhood size is n times bigger than constructive"
+    ),
+    "3: There is more scope for invalid solutions",
+    (
+        "4: The landscape is more complex/rugged because a change  at any point "
+        "in a solution rotates the whole path past that point."
+    ),
+    "All but 1",
+    "All but 2",
+    "All but 3",
+    "All but 4",
+    "All the above",
+]
+Q8 = create_multiple_choice_widget(text8, options8, 8)

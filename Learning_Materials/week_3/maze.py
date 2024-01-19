@@ -29,6 +29,7 @@ class Maze(Problem):
         self.height: int = 0
         self.start: int = 0
         self.goal: int = 0
+
         self.value_set = self.setup(mazefile)
 
     def setup(self, mazefile: str = "", start: tuple = (0, 0), end: tuple = (10, 10)):
@@ -51,12 +52,12 @@ class Maze(Problem):
 
         # define the amount to add to the previous cellid for each move
         # can only do this once the maze has been read in so we know how big it is!
-        self.left_move = -1
-        self.right_move = 1
-        self.up_move = -(self.last_column_id)
-        self.down_move = self.last_column_id
+        left_move = -1
+        right_move = 1
+        up_move = -(self.last_column_id)
+        down_move = self.last_column_id
         # define the set of moves so we can iterate through them
-        moveset = [self.left_move, self.down_move, self.right_move, self.up_move]
+        moveset = [left_move, down_move, right_move, up_move]
 
         return moveset
 
@@ -75,6 +76,22 @@ class Maze(Problem):
         self.width = len(self.contents[0])
         self.last_column_id = self.width - 1
 
+    def save_to_txt(self, filename: str):
+        """Write to file as 0s and 1s.
+
+        Parameters
+        ----------
+        filename(str) name of file to write to
+        """
+        with open(filename, "w") as outfile:
+            for row in self.contents:
+                for col in row:
+                    if col == 0:
+                        outfile.write("1")
+                    else:
+                        outfile.write(" ")
+                outfile.write("\n")
+
     def show_maze(self, cmap="Set1"):
         """Prints out a maze."""
         green = 0.3
@@ -83,15 +100,11 @@ class Maze(Problem):
         # colour start and end point
         self.colour_cell_from_id(self.start, green)
         self.colour_cell_from_id(self.goal, yellow)
-        clear_output(wait=True)
         _ = plt.figure(figsize=(5, 5))
         plt.imshow(self.contents, cmap=cmap, norm=None)
-        plt.xticks(np.arange(0, self.width, 2))
-        plt.yticks(np.arange(0, self.height, 2))
-        # plt.show()
         plt.show()
 
-    def show_path(self, solution: list, refresh_rate: float = 0.002):
+    def show_path(self, solution: list, refresh_rate: float = 0.01):
         """Shows the path through a maze taken by a given solution
         and also the current open list.
         """
@@ -125,7 +138,6 @@ class Maze(Problem):
         self.colour_cell_from_id(solution[-1], blue)
 
         # leave the old picture on screen for long enough to see then refresh
-        # refresh_rate=1.0
         sleep(refresh_rate)
         clear_output(wait=True)
         _ = plt.figure(figsize=(5, 5))
@@ -137,10 +149,6 @@ class Maze(Problem):
         plt.axis("off")
         plt.imshow(self.contents, cmap="Set1")
         plt.show()
-        # fig.suptitle(title)
-        # fig.axis("off")
-        # fig.imshow(self.contents, cmap="Set1")
-        # fig.show()
 
     def set_start(self, x, y):
         """Converts a starting location into a single integer index.
@@ -227,7 +235,7 @@ class Maze(Problem):
 
         # no score for a solution that has not started yet
         if len(solution) == 0:
-            return 0, ""
+            return 0, reason
 
         # decode solution to path
         path = [self.start]
@@ -270,7 +278,7 @@ class Maze(Problem):
             # get coords of goal
             x2, y2 = self.cellid_to_coords(self.goal)
 
-            # calculate manhattan distance from pythagoras theorem
+            # calculate euclidean and manhattan distance
             np.sqrt((xnew - x2) * (xnew - x2) + (ynew - y2) * (ynew - y2))
             manhattan_distance = np.abs(xnew - x2) + np.abs(ynew - y2)
 
