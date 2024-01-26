@@ -1,55 +1,73 @@
+from candidatesolution import CandidateSolution
+from problem import Problem
 import random
 
-
-class CombinationProblem:
+class CombinationProblem(Problem):
     """
     Class to create simple combination lock problems
-    and report whether a guess opens the lock.
+    and report whether a guess opens the lock
     """
 
-    def __init__(self, tumblers: int = 4, num_options: int = 10):
-        """Create a new instance with a random solution.
-
+    def __init__(self, N: int = 4, num_options: int = 10):
+        """Create a new instance with a random solution
         Parameters
         ----------
-        tumblers : int   number of wheels in the lock
-        num_options : int.  number of different positions each wheel can be in
+        N:int
+           number of tumblers
+           default 4
+        num_options:int
+           number of possible values (positions) for each tumbler
+           this version assumes they are a consecutive integers from 1 to num_options
+           default 10
         """
 
-        self.numdecisions = tumblers  # how many decisions *must* valid solution specify
-        self.num_options = num_options  # how many values can each decision take
-        self.value_set = list(range(0, num_options))
+        self.solution_length = N  # number of tumblers
+        # set the allowed values in each position
+        self.value_set = []
+        for val in range(1, num_options + 1):
+            self.value_set.append(val)
 
-        # use random.choices to create a list holding the combination to be guessed
-        self.answer = random.choices(self.value_set, k=self.numdecisions)
+        # set  new random goal (unlock code)
+        self.goal = []
+        for position in range(N):
+            new_random_val = random.choice(self.value_set)
+            self.goal.append(new_random_val)
 
-    def evaluate(self, attempt: list) -> tuple[int, str]:
-        """Tests whether a provided attempt matches the combination."""
+    def print_goal(self) -> str:
+        """helper function -prints  target combinbation to screen"""
+        return f"{self.goal}"
 
-        try:  # use try ...except with assertions to make our code more robust
-            assert (
-                len(attempt) == self.numdecisions
-            )  # stop here if attempt is wrong length
-            for val in attempt:
-                assert val in self.value_set
-            if attempt == self.answer:
-                return 1, ""
-            else:
-                return 0, ""
-        except AssertionError:
-            errstr = (
-                f" attempt had length {len(attempt)}, should have been {self.numdecisions}"
-                f"or values were out of range in {attempt}"
-            )
-            return -1, errstr
-
-    def display(self, guess: list):
-        """Displays a guess at the combination
-        simple print as guess does not need any decoding.
-
+    def evaluate(self, attempt: CandidateSolution) -> (int, str):
+        """
+        Tests whether a provided attempt matches the combination
         Parameters
         ----------
-        attempt : candidateSolution
-            object whose variable values are to be displayed
+        attempt: list
+            list of values that define a proposed solution
+        Returns
+        ---------
+        int
+            quality
+            -1 means  attempt is invalid, (e.g. too few or wrong values)
+            0 means valid but incorrect,
+            1 means correct
+        str
+            reason why solution is invalid
+            empty string if solution is ok
         """
-        print(guess)
+        #  how long is the solution?
+        N = len(attempt.variable_values)
+        if N is not self.solution_length:
+            return -1, "attempt is wrong length"
+
+        # is the solution made up of valid choices?
+        for pos in range(N):
+            if attempt.variable_values[pos] not in self.value_set:
+                return -1, "error, invalid value found in solution"
+
+        # have we found the right combination?
+        if attempt.variable_values == self.goal:
+            return 1, ""
+        else:
+            return 0, ""
+
