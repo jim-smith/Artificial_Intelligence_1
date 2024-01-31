@@ -37,7 +37,7 @@ def create_multiple_choice_widget(description, options, correct_answer):
 
 
 text1 = (
-    "Q1: If there are four digits each from {0,1,...,9}, "
+    "Q1: If there are four tumblers each taking a value from the set {0,1,...,9}, "
     "how many attempts will your algorithm try ON AVERAGE"
 )
 Q1 = create_multiple_choice_widget(
@@ -46,7 +46,7 @@ Q1 = create_multiple_choice_widget(
     "5000",
 )
 text2 = (
-    "Q2:If there are four digits each from {0,1,...,9}, "
+    "Q2:If there are four tumblers each taking a value from the set {0,1,...,9} "
     "how many attempts will your algorithm try IN THE BEST CASE"
 )
 
@@ -57,7 +57,7 @@ Q2 = create_multiple_choice_widget(
 )
 Q3 = create_multiple_choice_widget(
     (
-        "Q3: If there are four digits each from {0,1,...,9}, "
+        "Q3: If there are four tumblers each taking a value from the set {0,1,...,9}, "
         "how many attempts will your algorithm try IN THE WORST CASE"
     ),
     ["1", "4", "9", "1000", "5000", "10000"],
@@ -66,7 +66,7 @@ Q3 = create_multiple_choice_widget(
 
 Q4 = create_multiple_choice_widget(
     (
-        "Q4: If there are four digits each from {0,1,...,4}, "
+        "Q4: If there are four tumblers each taking a value from the set {0,1,...,4}, "
         "how many attempts will your algorithm try ON AVERAGE"
     ),
     ["1", "5", "100", "500", "312.5", "625", "1000"],
@@ -74,7 +74,7 @@ Q4 = create_multiple_choice_widget(
 )
 Q5 = create_multiple_choice_widget(
     (
-        "Q5: If there are five digits each from {0,1,...,9}, "
+        "Q5: If there are five tumblers each taking a value from the set {0,1,...,9}, "
         "how many attempts will your algorithm try ON AVERAGE"
     ),
     ["1000", "5000", "10000", "50000"],
@@ -82,7 +82,7 @@ Q5 = create_multiple_choice_widget(
 )
 Q6 = create_multiple_choice_widget(
     (
-        "Q6: If there are four digits each from {0,1,...,20}, "
+        "Q6: If there are four tumblers each taking a value from the set {0,1,...,20}, "
         "how many attempts will your algorithm try ON AVERAGE"
     ),
     ["1000", "5000", "10000", "80000"],
@@ -94,8 +94,8 @@ Q7 = create_multiple_choice_widget(
         "Q7:As you increase their values, "
         "which parameter makes the number of possible answers grow fastest"
     ),
-    ["don't know", "the number of digits", "the number of options for each digit"],
-    "the number of options for each digit",
+    ["don't know", "the number of tumblers", "the number of options for each tumbler"],
+    "the number of options for each tumbler",
 )
 
 
