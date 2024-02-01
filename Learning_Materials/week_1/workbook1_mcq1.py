@@ -95,7 +95,7 @@ Q7 = create_multiple_choice_widget(
         "which parameter makes the number of possible answers grow fastest"
     ),
     ["don't know", "the number of tumblers", "the number of options for each tumbler"],
-    "the number of options for each tumbler",
+    "the number of tumblers",
 )
 
 
@@ -109,7 +109,7 @@ def check_submitted_answers(answer_dict):
         assert answer_dict["Q5"] == 50000, "numerical value wrong"
         assert answer_dict["Q6"] == 80000, "numerical value wrong"
         assert (
-            answer_dict["Q7"] == "the number of options for each digit"
+            answer_dict["Q7"] == "the number of tumblers"
         ), "Did you get the spelling and spacing right?"
         print("These answers are all correctly stored and ready to submit")
     except AssertionError:
