@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module singlemembersearch</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">singlemembersearch</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/j4-smith/GitHub/Artificial_Intelligence_1/Learning_Materials/week_2/singlemembersearch.py">/Users/j4-smith/GitHub/Artificial_Intelligence_1/Learning_Materials/week_2/singlemembersearch.py</a></td></tr></table>
+    <p><span class="code">Singlemembersearch.py<br>
+author&nbsp;james.smith@uwe.ac.uk&nbsp;2023<br>
+&nbsp;<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;implements&nbsp;the&nbsp;pseudocode&nbsp;for&nbsp;a&nbsp;<br>
+common&nbsp;framework&nbsp;for&nbsp;single&nbsp;member&nbsp;search,<br>
+as&nbsp;described&nbsp;in&nbsp;the&nbsp;lectures&nbsp;for&nbsp;Artificial&nbsp;Intelligence&nbsp;1.<br>
+&nbsp;<br>
+Comment&nbsp;lines&nbsp;that&nbsp;begin&nbsp;with&nbsp;===&nbsp;PS&nbsp;are&nbsp;directly&nbsp;copied&nbsp;from&nbsp;the&nbsp;pseudocode<br>
+There&nbsp;are&nbsp;a&nbsp;lot&nbsp;of&nbsp;helper&nbsp;functions&nbsp;to&nbsp;try&nbsp;nad&nbsp;make&nbsp;the&nbsp;main&nbsp;code&nbsp;more&nbsp;readable</span></p>
+<p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="singlemembersearch.html#SingleMemberSearch">SingleMemberSearch</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="SingleMemberSearch">class <strong>SingleMemberSearch</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#SingleMemberSearch">SingleMemberSearch</a>(problem:&nbsp;problem.Problem,&nbsp;constructive:&nbsp;bool&nbsp;=&nbsp;False,&nbsp;max_attempts:&nbsp;int&nbsp;=&nbsp;50,&nbsp;minimise=True,&nbsp;target_quality=1)<br>
+&nbsp;<br>
+Common&nbsp;framework&nbsp;for&nbsp;single&nbsp;member&nbsp;search&nbsp;on&nbsp;graphs.<br>
+Attributes&nbsp;not&nbsp;definied&nbsp;in&nbsp;init&nbsp;method:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;open_list&nbsp;:&nbsp;list&nbsp;(of&nbsp;CandidateSolutions)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;list&nbsp;of&nbsp;known&nbsp;solutions&nbsp;to&nbsp;be&nbsp;explored<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closed_list:&nbsp;:&nbsp;list&nbsp;(of&nbsp;CandidateSolutions)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;list&nbsp;of&nbsp;known&nbsp;solutions&nbsp;we&nbsp;have&nbsp;explored<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="SingleMemberSearch-__init__"><strong>__init__</strong></a>(self, problem: problem.Problem, constructive: bool = False, max_attempts: int = 50, minimise=True, target_quality=1)</dt><dd><span class="code">Constructor&nbsp;for&nbsp;search&nbsp;algorithm&nbsp;in&nbsp;a&nbsp;given&nbsp;problem.<br>
+starts&nbsp;a&nbsp;search&nbsp;with&nbsp;an&nbsp;empty&nbsp;solution&nbsp;on&nbsp;the&nbsp;open&nbsp;list.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+problem&nbsp;:&nbsp;Problem<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;specific&nbsp;instance&nbsp;of&nbsp;a&nbsp;problem&nbsp;to&nbsp;be&nbsp;solved<br>
+constructive&nbsp;:&nbsp;bool&nbsp;(optional)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;can&nbsp;solutions&nbsp;have&nbsp;different&nbsp;lengths&nbsp;(True)&nbsp;or&nbsp;not(False)<br>
+max_attempts&nbsp;:&nbsp;int&nbsp;(optional)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;maximum&nbsp;number&nbsp;of&nbsp;solutions&nbsp;to&nbsp;test&nbsp;(to&nbsp;avoid&nbsp;endless&nbsp;loops)<br>
+minimise&nbsp;:&nbsp;bool<br>
+&nbsp;&nbsp;&nbsp;&nbsp;whether&nbsp;the&nbsp;aim&nbsp;is&nbsp;find&nbsp;a&nbsp;solution&nbsp;with&nbsp;&nbsp;minimum&nbsp;or&nbsp;maximum&nbsp;quality<br>
+target_quality&nbsp;:&nbsp;int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;we&nbsp;know&nbsp;the&nbsp;best&nbsp;possible&nbsp;quality&nbsp;&nbsp;(e.g.&nbsp;100%&nbsp;accuracy)</span></dd></dl>
+
+<dl><dt><a name="SingleMemberSearch-__str__"><strong>__str__</strong></a>(self) -&gt; str</dt><dd><span class="code">Returns&nbsp;name&nbsp;of&nbsp;algorithm</span></dd></dl>
+
+<dl><dt><a name="SingleMemberSearch-a_better_than_b"><strong>a_better_than_b</strong></a>(self, a: int, b: int) -&gt; bool</dt><dd><span class="code">Compares&nbsp;two&nbsp;solutions&nbsp;taking&nbsp;into&nbsp;account&nbsp;whether&nbsp;we&nbsp;are&nbsp;minimising.</span></dd></dl>
+
+<dl><dt><a name="SingleMemberSearch-already_seen"><strong>already_seen</strong></a>(self, attempt: candidatesolution.CandidateSolution) -&gt; bool</dt><dd><span class="code">Checks&nbsp;is&nbsp;an&nbsp;attempt&nbsp;is&nbsp;already&nbsp;in&nbsp;a&nbsp;list.</span></dd></dl>
+
+<dl><dt><a name="SingleMemberSearch-run_search"><strong>run_search</strong></a>(self) -&gt; bool</dt><dd><span class="code">The&nbsp;main&nbsp;loop&nbsp;for&nbsp;single&nbsp;member&nbsp;search.<br>
+Returns&nbsp;True/False&nbsp;for&nbsp;success&nbsp;or&nbsp;failure.</span></dd></dl>
+
+<dl><dt><a name="SingleMemberSearch-select_and_move_from_openlist"><strong>select_and_move_from_openlist</strong></a>(self) -&gt; candidatesolution.CandidateSolution</dt><dd><span class="code">Not&nbsp;intended&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;super&nbsp;class.<br>
+Overridden&nbsp;in&nbsp;sub-classes&nbsp;to&nbsp;implement&nbsp;different&nbsp;algorithms<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+next&nbsp;working&nbsp;candidate&nbsp;(solution)&nbsp;taken&nbsp;from&nbsp;open&nbsp;list</span></dd></dl>
+
+<dl><dt><a name="SingleMemberSearch-update_working_memory"><strong>update_working_memory</strong></a>(self, neighbour: candidatesolution.CandidateSolution)</dt><dd><span class="code">Update&nbsp;what&nbsp;we&nbsp;have&nbsp;learned&nbsp;about&nbsp;the&nbsp;problem<br>
+after&nbsp;evaluating&nbsp;a&nbsp;new&nbsp;candidate<br>
+Could&nbsp;have&nbsp;left&nbsp;this&nbsp;code&nbsp;in&nbsp;the&nbsp;main&nbsp;loop<br>
+but&nbsp;separating&nbsp;it&nbsp;out&nbsp;makes&nbsp;it&nbsp;easier&nbsp;to&nbsp;read.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>BIGNUM</strong> = 10000000</td></tr></table>
+</body></html>
