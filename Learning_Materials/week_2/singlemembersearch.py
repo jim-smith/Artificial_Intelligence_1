@@ -9,7 +9,7 @@ common framework for single member search,
 as described in the lectures for Artificial Intelligence 1.
 
 Comment lines that begin with === PS are directly copied from the pseudocode
-There are a lot of helper functions to try nad make the main code more readable
+There are a lot of helper functions to try and make the main code more readable
 
 """
 
@@ -87,9 +87,7 @@ class SingleMemberSearch:
             working_candidate.variable_values = [firstval] * problem.numdecisions
 
         #  === Pseudocode:  Test ( working_candidate)  ======      Problem-specific code
-        working_candidate.quality, _ = self.problem.evaluate(
-            working_candidate.variable_values
-        )
+
         if self.constructive and self.minimise:
             working_candidate.quality = BIGNUM
         else:

@@ -52,7 +52,7 @@ q0 = create_multiple_choice_widget(q0text, yesno, no)
 #
 #
 q1text = (
-    "Lines 191--193 of the code implementation singlemembersearch.py extend the pseudocode.\n"
+    "Lines 171--174 of the code implementation singlemembersearch.py extend the pseudocode.\n"
     "Which reason do you think is most likely?"
 )
 q1options = [
@@ -64,7 +64,7 @@ q1 = create_multiple_choice_widget(q1text, q1options, 2)
 #
 #
 q2text = (
-    "Lines 191--193 of singlemembersearch.py "
+    "Lines 171--174 of singlemembersearch.py "
     "prevent duplicate **encoded** representations of candidate solutions.\n"
     "For a constructive search, "
     "will this guarantee there are no loops?"
