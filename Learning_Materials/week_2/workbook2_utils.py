@@ -144,15 +144,17 @@ q11text = (
     "found by breadth-first match the smallest value that works for your/n"
     "RestrictedDepthFirstSearch() algorithm?"
 )
+q11 = create_multiple_choice_widget(q11text, yesno, yes)
+
 #
 q12text = "Are  more solutions examined  for breadth than depth?"
-q12 = create_multiple_choice_widget(q10text, yesno, yes)
+q12 = create_multiple_choice_widget(q12text, yesno, yes)
 #
 #
 q13text = (
     "The memory used is determined by the maximum size of the openlist \n"
     "at any stage during the search process.\n"
-    "Would you expectthis to be bigger for depth-first than breadth first search?"
+    "Would you expect this to be bigger for depth-first than breadth first search?"
 )
 q13 = create_multiple_choice_widget(q13text, yesno, no)
 
