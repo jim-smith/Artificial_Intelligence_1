@@ -1,9 +1,16 @@
 """
-Singlemembersearch.py
-common framework for single member search on graphs.
 
-LINES BEGINNINNG #PS are pseudocode copied from lecture slides
+Singlemembersearch.py
 author james.smith@uwe.ac.uk 2023
+
+
+This class implements the pseudocode for a 
+common framework for single member search,
+as described in the lectures for Artificial Intelligence 1.
+
+Comment lines that begin with === PS are directly copied from the pseudocode
+There are a lot of helper functions to try and make the main code more readable
+
 """
 
 from copy import deepcopy
@@ -15,8 +22,17 @@ from problem import Problem
 BIGNUM = 10000000
 
 
+
+
 class SingleMemberSearch:
-    """Common framework for single member search on graphs."""
+    """Common framework for single member search on graphs.
+    Attributes not definied in init method:
+        open_list : list (of CandidateSolutions)
+            the list of known solutions to be explored
+        closed_list: : list (of CandidateSolutions)
+            the list of known solutions we have explored
+    
+    """
 
     def __init__(
         self,
@@ -40,43 +56,38 @@ class SingleMemberSearch:
         minimise : bool
             whether the aim is find a solution with  minimum or maximum quality
         target_quality : int
-            sometimes we know the best possible quality
-            (e.g. 100% accuracy)
+            if we know the best possible quality  (e.g. 100% accuracy)
         """
 
         # Store parameters as instance variables
         self.problem: Problem = problem
-        self.constructive = constructive
+        self.constructive: bool = constructive
         self.max_attempts: int = max_attempts
-        self.minimise = minimise
+        self.minimise: bool = minimise
 
         # Implementation specific storage
-        self.runlog = ""  # any messages we want to store"
+        self.runlog:str = ""  # any messages we want to store"
         self.trials = 0  # number of attempts so far
         self.solved = False  # have we resched the goal?
-        self.best_so_far: int = BIGNUM
+        self.best_so_far = BIGNUM
         self.result: list = []  # best solution found
-        # list of positions to be changed during search loop
-        # i.e. just the last for constructive or all for perturbative
+        # list of positions where change can happen during search 
         self.positions = [-1] if constructive else list(range(0, problem.numdecisions))
 
-        # PS Set open_list, closed_list ← EmptyList
+        # === Pseudocode: Set open_list, closed_list ← EmptyList
         self.open_list: list = []
         self.closed_list: list = []
 
-        # PS working_candidate ← Initialise (CandidateSolution)
+        #  === Pseudocode:  working_candidate ← Initialise (CandidateSolution)
         working_candidate = CandidateSolution()
-
-        # for constructive we start with no moves, depth 0,
-        # otherwise start with first valid value in every position
-        if not constructive:
-            firstval = problem.value_set[0]
+        if constructive:
+            working_candidate.variable_values = []
+        else:
+            firstval = problem.value_set[0]   # use first valid value in every pos
             working_candidate.variable_values = [firstval] * problem.numdecisions
 
-        # PS Test ( working_candidate)        Problem-specific code
-        working_candidate.quality, _ = self.problem.evaluate(
-            working_candidate.variable_values
-        )
+        #  === Pseudocode:  Test ( working_candidate)  ======      Problem-specific code
+
         if self.constructive and self.minimise:
             working_candidate.quality = BIGNUM
         else:
@@ -93,33 +104,21 @@ class SingleMemberSearch:
             self.result = working_candidate.variable_values
             self.solved = True
 
-        # PS AppendToOpenList(working_candidate)
+        #  === Pseudocode:  AppendToOpenList(working_candidate)
         self.open_list.append(working_candidate)
 
+
     def __str__(self) -> str:
-        """Returns name of algorithm
-        not set in superclass.
-        """
+        """   Returns name of algorithm  """
         return "not set"
 
-    def a_beats_b(self, a: int, b: int) -> bool:
-        """Comparison taking into account whether we are minimising."""
-        better: bool = False
-        if a < b and self.minimise:
-            better = True
-        if a > b and not self.minimise:
-            better = True
-        return better
+
 
     # ============= this function defines which algorithm is being used ================
     def select_and_move_from_openlist(self) -> CandidateSolution:
         """
-        Not intended to be used in super class,
-        so throws an assertion if not over-ridden.
-
-        In sub-classes should implement different algorithms
-        depending on what item it picks from open_list
-        and what it then does to the open list.
+        Not intended to be used in super class.
+        Overridden in sub-classes to implement different algorithms
 
         Returns
         -------
@@ -128,29 +127,11 @@ class SingleMemberSearch:
         dummy = CandidateSolution()
         errmsg = (
             "The super class is not intended to be called directly.\n"
-            "You should call a sub-class where:\n"
-            "  - the algorithm name is defined\n"
-            " - and get_next_item() is defined.\n"
+            "You should over-ride this message in your sub-class.\n"
         )
         assert self.__str__() == "not set", errmsg
         return dummy
 
-    # =========== Helper function to avoid duplicating effort ====================
-    def already_seen(self, attempt: CandidateSolution) -> bool:
-        """Checks is an attempt is already in a list."""
-        seen = False
-        # open list first
-        for existing in self.open_list:
-            if attempt.variable_values == existing.variable_values:
-                seen = True
-                break
-        # now closed list
-        if not seen:
-            for existing in self.closed_list:
-                if attempt.variable_values == existing.variable_values:
-                    seen = True
-                    break
-        return seen
 
     # =========== the main search loop ======================================
     def run_search(self) -> bool:
@@ -159,18 +140,18 @@ class SingleMemberSearch:
         """
         self.trials = 1  # used 1 in init
 
-        # PS  WHILE IsNotEmpty( open_list) DO
+        # === Pseudocode:  WHILE IsNotEmpty( open_list) DO
         # add a couple of other conditions to provide early stopping
         while self.trials < self.max_attempts and not self.solved:
             self.runlog += f"{len(self.open_list)} candidates on the openList.\n"
 
-            # PS working_candidate <- SelectAndMoveFromOpenList(algorithm_name)
+            # === Pseudocode: working_candidate <- SelectAndMoveFromOpenList(algorithm_name)
             working_candidate = self.select_and_move_from_openlist()
             if working_candidate is None:
                 self.runlog += "ran out of promising solutions to test\n"
                 return False
 
-            # PS FOR sample in SAMPLE_SIZE DO
+            # === Pseudocode: FOR sample in SAMPLE_SIZE DO
             self.runlog += (
                 " Next iteration working candidate quality "
                 f"{working_candidate.quality}.\n"
@@ -193,7 +174,7 @@ class SingleMemberSearch:
                             continue
 
                     # === TEST === #
-                    # PS status ← Test ( neighbour)       Problem-specific code
+                    # === Pseudocode: status ← Test ( neighbour)       Problem-specific code
                     neighbour.quality, neighbour.reason = self.problem.evaluate(
                         neighbour.variable_values
                     )
@@ -205,7 +186,7 @@ class SingleMemberSearch:
                         return True
 
             # end over loop of neighbors of working candidate
-            # PS AppendToClosedList(workingCandidate)
+            # === Pseudocode: AppendToClosedList(workingCandidate)
             self.closed_list.append(working_candidate)
 
         # while loop has ended
@@ -220,13 +201,13 @@ class SingleMemberSearch:
         Could have left this code in the main loop
         but separating it out makes it easier to read.
         """
-        # PS IF status IS AtGoal THEN Return(SUCCESS)
+        # === Pseudocode: IF status IS AtGoal THEN Return(SUCCESS)
         # for decision problems this means quality==1
         if neighbour.quality == 1:
             self.result = neighbour.variable_values
             self.solved = True
 
-        # PS ELSE IF status IS BREAKS_CONSTRAINTS THEN
+        # === Pseudocode: ELSE IF status IS BREAKS_CONSTRAINTS THEN
         elif neighbour.reason != "":
             self.runlog += (
                 f"discarding invalid solution {neighbour.variable_values} "
@@ -235,7 +216,7 @@ class SingleMemberSearch:
             # PS AppendToClosedList(neighbour)
             self.closed_list.append(neighbour)
 
-        # PS ELSE AppendToOpenList(neighbour)
+        # === Pseudocode: ELSE AppendToOpenList(neighbour)
         else:
             self.runlog += (
                 "adding solution to openlist"
@@ -243,3 +224,31 @@ class SingleMemberSearch:
                 f" quality {neighbour.quality}\n"
             )
             self.open_list.append(neighbour)
+
+
+# =========== Helper functions  ====================            
+   
+    def a_better_than_b(self, a: int, b: int) -> bool:
+        """ Compares two solutions taking into account whether we are minimising."""
+        better: bool = False
+        if a < b and self.minimise:
+            better = True
+        if a > b and not self.minimise:
+            better = True
+        return better
+
+    def already_seen(self, attempt: CandidateSolution) -> bool:
+        """Checks is an attempt is already in a list."""
+        seen = False
+        # open list first
+        for existing in self.open_list:
+            if attempt.variable_values == existing.variable_values:
+                seen = True
+                break
+        # now closed list
+        if not seen:
+            for existing in self.closed_list:
+                if attempt.variable_values == existing.variable_values:
+                    seen = True
+                    break
+        return seen

@@ -115,6 +115,7 @@ class Maze(Problem):
         orange = 0.5
         purple = 0.4
         red=0.0
+        grey = 0.95
         #red, blue,green , purple, orange, yellow,brown,pink, greycalanedqr
         # clear previous paths
         for row in range(len(self.contents)):
@@ -122,7 +123,7 @@ class Maze(Problem):
                 #if self.contents[row][cell]>0.0:#!= red:
                 #     self.contents[row][cell] = purple
                 if self.contents[row][cell] == orange:
-                    self.contents[row][cell] = purple
+                    self.contents[row][cell] = grey
                 if self.contents[row][cell] == blue:
                     self.contents[row][cell] = purple
 
