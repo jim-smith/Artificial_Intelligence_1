@@ -104,7 +104,7 @@ class Maze(Problem):
         plt.imshow(self.contents, cmap=cmap, norm=None)
         plt.show()
 
-    def show_path(self, solution: list, refresh_rate: float = 0.01):
+    def show_path(self, solution: list, refresh_rate: float = 0.05):
         """Shows the path through a maze taken by a given solution
         and also the current open list.
         """
@@ -114,10 +114,13 @@ class Maze(Problem):
         blue = 0.2
         orange = 0.5
         purple = 0.4
-
+        red=0.0
+        #red, blue,green , purple, orange, yellow,brown,pink, greycalanedqr
         # clear previous paths
         for row in range(len(self.contents)):
             for cell in range(len(self.contents[row])):
+                #if self.contents[row][cell]>0.0:#!= red:
+                #     self.contents[row][cell] = purple
                 if self.contents[row][cell] == orange:
                     self.contents[row][cell] = purple
                 if self.contents[row][cell] == blue:
