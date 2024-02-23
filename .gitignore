@@ -137,4 +137,7 @@ dmypy.json
 
 # zip files
 .zip
+# things ot keep from students
+notshared.py
+*completed.ipynb
 
