@@ -35,8 +35,8 @@ body.rise-enabled div.inner_cell>div.text_cell_render.rendered_html {
 }
 
 .rendered_html p {
-    font-size:smaller
-        /*margin-bottom:10px */
+    font-size:smaller;
+    margin-bottom:10px
 }
 
 .rendered_html ul {
