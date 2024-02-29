@@ -96,7 +96,7 @@ Q2 = create_multipleChoice_widget(
     ['.', 's', 'v', '^', 'x', '+'], 'v')
 
 Q3 = create_multipleChoice_widget('How tall is the figure created by the call: fig,ax=plt.subplots(figsize=(10,5)?',
-                                  ['10 inches', '5 inches', '10 cm', '5 cm'], '10 inches')
+                                  ['10 inches', '5 inches', '10 cm', '5 cm'], '5 inches')
 Q4 = create_multipleChoice_widget('How wide is that figure if the next line of code is: fig.set_size_inches(5, 10)',
                                   ['10 inches', '5 inches', '10 cm', '5 cm'], '5 inches')
 
