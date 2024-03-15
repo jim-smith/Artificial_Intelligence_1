@@ -77,7 +77,55 @@ def plotDecisionSurface(model,X,y):
         # get row indexes for samples with this class
         row_ix = np.where(y == class_value)
         # create scatter of these samples
-        plt.scatter(X[row_ix, 0], X[row_ix, 1], cmap='Pastel1')
+        plt.scatter(X[row_ix, 0], X[row_ix, 1])
     # show the plot
     fig = plt.gcf()
     fig.set_size_inches(7.5, 7.5)
+    
+def plot_decision_surface_v1(ax,model,X,y):
+    """plots decision surface assuming dat is MinMaxScaled and two class"""
+    x1_scale = np.arange(-0.1,1.1, 0.01)
+    x2_scale = np.arange(-0.1,1.1, 0.01)
+    x_grid, y_grid = np.meshgrid(x1_scale, x2_scale)
+    # flatten each grid to a vector
+    x_g, y_g = x_grid.flatten(), y_grid.flatten()
+    x_g, y_g = x_g.reshape((len(x_g), 1)), y_g.reshape((len(y_g), 1))
+    # stack to produce hi-res grid in form like dataset
+    grid = np.hstack((x_g, y_g))
+
+    # make predictions for the grid
+    y_pred_2 = model.predict(grid)
+    pred_grid= y_pred_2.reshape(x_grid.shape)
+    
+    surface = ax.contourf(x_grid, y_grid, pred_grid, cmap='Pastel1')
+    # create scatter plot for samples from each class
+    for class_value in range(2):
+        # get row indexes for samples with this class
+        row_ix = np.where(y == class_value)
+        # create scatter of these samples
+        ax.scatter(X[row_ix, 0], X[row_ix, 1])
+
+def plot_decision_surface_v2(ax,model,X,y):
+    """plots decision surface assuming dat is MinMaxScaled and N class"""
+    x1_scale = np.arange(-0.1,1.1, 0.01)
+    x2_scale = np.arange(-0.1,1.1, 0.01)
+    x_grid, y_grid = np.meshgrid(x1_scale, x2_scale)
+    # flatten each grid to a vector
+    x_g, y_g = x_grid.flatten(), y_grid.flatten()
+    x_g, y_g = x_g.reshape((len(x_g), 1)), y_g.reshape((len(y_g), 1))
+    # stack to produce hi-res grid in form like dataset
+    grid = np.hstack((x_g, y_g))
+
+    # make predictions for the grid
+    y_pred_2 = model.predict(grid)
+    pred = np.argmax(y_pred_2,axis=1)
+    pred_grid= pred.reshape(x_grid.shape)
+    
+    surface = ax.contourf(x_grid, y_grid, pred_grid, cmap='Pastel1')
+    # create scatter plot for samples from each class
+    y_as_labels = np.argmax(y,axis=1)
+    for class_value in np.unique(y_as_labels):
+        # get row indexes for samples with this class
+        row_ix = np.where(y_as_labels == class_value)
+        # create scatter of these samples
+        ax.scatter(X[row_ix, 0], X[row_ix, 1])
