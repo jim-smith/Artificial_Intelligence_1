@@ -1,0 +1,17 @@
+<aiml>
+
+<category>
+    <pattern> DESCRIBE APPLES</pattern>
+    <template> Apples are round fruit with smooth green skin</template>
+</category>
+
+<category>
+  <pattern> IS MY FRUIT AN APPLE</pattern>
+  <template> Is your fruit round and green and smooth?</template>
+</category>
+    
+<category>
+    <pattern>MY FRUIT IS ROUND AND GREEN AND SMOOTH</pattern>
+    <template> Your fruit is an apple </template>
+</category>
+</aiml>
