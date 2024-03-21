@@ -1,0 +1,134 @@
+Q00: What is long-term knowledge?
+A00: Long-term knowledge is valid over a period of time.
+
+Q01: What is short-term knowledge?
+A01: Short-term knowledge is only valid for a particular situation or run of a programme.
+
+Q02: What is generic knowledge?
+A02: Generic knowledge is relevant to more than one application or domain.
+
+Q03: What is domain-specific knowledge?
+A03: Domain-specific knowledge is only applicable to one specific application or domain.
+
+Q04: What is a fact?
+A04: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+
+Q05: What is a rule?
+A05: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q06: Give me an example of long-term generic knowledge.
+A06: The formal specification of the python programming language.
+
+Q07: Give me an example of long-term domain-specific knowledge.
+A07: The formal specification of a particular machine learning algorithm.
+
+Q08: Give me an example of short-term generic knowledge.
+A08: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+
+Q09: Give me an example of short-term domain-specific knowledge.
+A09: The deadline for the submission of this portfolio.
+
+Q10: Give me an example of a rule.
+A10: If isAlive(X) then NOT isDead(X).
+
+Q11: Give me an example of a fact.
+A11: Submissions for this module are run through automatic and effective plagiarism checks.
+
+Q12: Give me a definition of long-term knowledge?
+A12: Long-term knowledge is valid over a period of time.
+
+Q13: Give me a definition of short-term knowledge.
+A13: Short-term knowledge is only valid for a particular situation or run of a programme.
+
+Q14: Give me a definition of generic knowledge.
+A14: Generic knowledge is relevant to more than one application or domain.
+
+Q15: Give me a definition of domain-specific knowledge.
+A15: Domain-specific knowledge is only applicable to one specific application or domain.
+
+Q16: Give me a definition of a fact.
+A16: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+
+Q17: Give me a definition of a rule.
+A17: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q18: Tell me about long-term knowledge?
+A18: Long-term knowledge is valid over a period of time.
+
+Q19: Tell me about short-term knowledge.
+A19: Short-term knowledge is only valid for a particular situation or run of a programme.
+
+Q20: Tell me about generic knowledge.
+A20: Generic knowledge is relevant to more than one application or domain.
+
+Q21: Tell me about domain-specific knowledge.
+A21: Domain-specific knowledge is only applicable to one specific application or domain.
+
+Q22: Tell me about a fact.
+A22: A fact is a statement which asserts that a relationship holds for an object-subject pair.
+
+Q23: Tell me about a rule.
+A23: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q24: Illustrate the concept of long-term generic knowledge.
+A24: The formal specification of the python programming language.
+
+Q25: Illustrate the concept of long-term domain-specific knowledge.
+A25: The formal specification of a particular machine learning algorithm.
+
+Q26: Illustrate the concept of short-term generic knowledge.
+A26: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+
+Q27: Illustrate the concept of short-term domain-specific knowledge.
+A27: The deadline for the submission of this portfolio.
+
+Q28: Illustrate the concept of a fact.
+A28: Submissions for this module are run through automatic and effective plagiarism checks.
+
+Q29: Illustrate the concept of a rule.
+A29: If isAlive(X) then NOT isDead(X).
+
+Q30: Provide an example of long-term generic knowledge.
+A30: The formal specification of the python programming language.
+
+Q31: Provide an example of long-term domain-specific knowledge.
+A31: The formal specification of a particular machine learning algorithm.
+
+Q32: Provide an example of short-term generic knowledge.
+A32: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
+
+Q33: Provide an example of short-term domain-specific knowledge.
+A33: The deadline for the submission of this portfolio.
+
+Q34: Please provide an example of a fact.
+A34: Submissions for this module are run through automatic and effective plagiarism checks.
+
+Q35: Why is knowing that useful?
+A35: To remind you that we take assessment offences very seriously.
+
+Q36: Please provide an example of a rule.
+A36: If isAlive(X) then NOT isDead(X).
+
+Q37: What is a rule mybot?
+A37: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q38: Please give me an example of a rule.
+A38: If isAlive(X) then NOT isDead(X).
+
+Q39: Please myBot what is a rule?
+A39: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q40: Mybot please give me a definition of a rule.
+A40: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
+
+Q41: What is the way that AIML allows variables in its long-term knowledge.
+A41: AIML has wildcards and srai for that purpose.
+
+Q42: Why is knowing that useful?
+A42: Because it allows us to make statements that apply to classes of things or questions.
+
+Q43: What is the way AIML supports context during a conversation.
+A43: AIML supports context through the use of the that tag to refer to previous bot answers, and via setting variables such as topic.
+
+Q44: Why is knowing that useful?
+A44: Because some words like that and it can only be understood in the context of previous sentences.

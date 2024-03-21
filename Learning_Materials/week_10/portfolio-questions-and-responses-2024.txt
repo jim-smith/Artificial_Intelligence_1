@@ -26,13 +26,13 @@ Q08: Give me an example of short-term generic knowledge.
 A08: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
 
 Q09: Give me an example of short-term domain-specific knowledge.
-A09: The deadline for the submission of this coursework.
+A09: The deadline for the submission of this portfolio.
 
 Q10: Give me an example of a rule.
 A10: If isAlive(X) then NOT isDead(X).
 
 Q11: Give me an example of a fact.
-A11: All coursework for this module is run through automatic and effective plagiarism checks.
+A11: Submissions for this module are run through automatic and effective plagiarism checks.
 
 Q12: Give me a definition of long-term knowledge?
 A12: Long-term knowledge is valid over a period of time.
@@ -80,10 +80,10 @@ Q26: Illustrate the concept of short-term generic knowledge.
 A26: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
 
 Q27: Illustrate the concept of short-term domain-specific knowledge.
-A27: The deadline for the submission of this coursework.
+A27: The deadline for the submission of this portfolio.
 
 Q28: Illustrate the concept of a fact.
-A28: All coursework for this module is run through automatic and effective plagiarism checks.
+A28: Submissions for this module are run through automatic and effective plagiarism checks.
 
 Q29: Illustrate the concept of a rule.
 A29: If isAlive(X) then NOT isDead(X).
@@ -98,10 +98,10 @@ Q32: Provide an example of short-term generic knowledge.
 A32: The date today is an example as it may be useful in different contexts but only lasts 24 hours.
 
 Q33: Provide an example of short-term domain-specific knowledge.
-A33: The deadline for the submission of this coursework.
+A33: The deadline for the submission of this portfolio.
 
 Q34: Please provide an example of a fact.
-A34: All coursework for this module is run through automatic and effective plagiarism checks.
+A34: Submissions for this module are run through automatic and effective plagiarism checks.
 
 Q35: Why is knowing that useful?
 A35: To remind you that we take assessment offences very seriously.
