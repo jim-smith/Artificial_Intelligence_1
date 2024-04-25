@@ -353,7 +353,7 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
                             )
                 score += 5
             else:
-                feedback += ("data does not seem to have had preprocessing "
+                feedback += ("data does not seem to have had preprocessing (scaling) "
                              " applied to every feature (column) independently"
                             )
                                          
@@ -368,6 +368,8 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         if mlplist[0]._label_binarizer.__dict__['y_type_']== 'multilabel-indicator':
             feedback += "MLP has been given one-hot encoded data. [5 marks]\n"
             score += 5
+        else: 
+            feedback += "MLP has not been given one-hot encoded data. [0 marks]\n"
 
     # now print findings from the workflow
     feedback += "\n=== testing results stored in summary dictionaries ===\n"
@@ -400,7 +402,7 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
             if acc=='missing':
                 feedback+= f'stored best accuracy missing for {alg}'
                 best_accs_ok= False
-            elif acc <0 or acc >= combinations_requested[alg]:
+            elif acc <0 or acc >100:
                 feedback+= f'stored best accuracy {acc} out of bounds for {alg}'
                 best_accs_ok= False 
             else:
