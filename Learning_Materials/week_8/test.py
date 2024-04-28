@@ -18,7 +18,7 @@ def test_make_xor_reliability_plot(myfig,myaxs)->(int,str):
     ### right returned values
     if not isinstance(myfig,plt.Figure):
         ok=False
-        feedback += "Failed to return a figure object as value.\n"
+        feedback += "Failed to return a figure object as the first value.\n"
     if not isinstance(myaxs,np.ndarray):
         ok=False
         feedback +="failed to return an array as the second value.\n"
@@ -36,22 +36,39 @@ def test_make_xor_reliability_plot(myfig,myaxs)->(int,str):
     if myaxs[0].get_title() == "Reliability":
         score += 2
         feedback += "Correct title for left hand plot [2].\n"
+    else:
+        feedback += "Missing or incorrect title for left hand plot.\n"
+        
     if myaxs[1].get_title() == "Efficiency":
         score += 2
         feedback += "Correct title for right hand plot [2].\n"
+    else:
+        feedback += "Missing or incorrect title for right hand plot.\n"
+
     if myaxs[0].get_xlabel() == "Hidden Layer Width":
         score +=1
         feedback += "Correct x-axis label for left hand plot [1].\n"
+    else:
+        feedback += "Missing or incorrect x-axis label for left hand plot.\n"
+
     if myaxs[1].get_xlabel() == "Hidden Layer Width":
         score +=1
         feedback += "Correct x-axis label for right hand plot [1].\n"
+    else:
+        feedback += "Missing or incorrect x-axis label for right hand plot.\n"
+        
+        
     if myaxs[0].get_ylabel() == "Success Rate":
         score +=2
         feedback += "Correct y-axis label for left hand plot [2].\n"
+    else:
+        feedback += "Missing or incorrect y-axis label for left hand plot.\n"
+
     if myaxs[1].get_ylabel() == "Mean epochs":
         score +=2    
         feedback += "Correct y-axis label for right hand plot [2].\n"
-    
+    else:
+        feedback += "Missing or incorrect y-axis label for right hand plot.\n"
     #now are the lines right?
     correct_x= np.arange(1,11)
 
@@ -148,6 +165,15 @@ hyperparams_and_counts:dict = {
     "MLP":{'hidden_layer_sizes':[2,2,2,2,2,2,2,2,2],
            'activation':[9,9]}
 }
+hyperparams_and_vals:dict = {
+    "KNN":{'n_neighbors':['1','3','5','7','9']},
+    "DecisionTree": {'max_depth':['1','3','5'],
+                         'min_samples_split':['2','5','10'],
+                         'min_samples_leaf':['1','5','10']
+                             },
+    "MLP":{'hidden_layer_sizes': ['(2,)','(5,)','(10,)','(2, 2)','(5, 2)','(10, 2)','(2, 5)','(5, 5)', '(10, 5)'] ,
+           'activation':["logistic","relu"]}
+}
 
 def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
     """ method to test the student's ML workflow class
@@ -243,6 +269,7 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         feedback += "\n==== That code all ran, now testing the stored models ====\n"
                      
     #Check 1: all the lists of saved models should be the right type and size
+    
     for modelname, modeltype in names_and_types.items():
         storedlist= mycomp.stored_models[modelname]
         #size
@@ -270,41 +297,49 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
                              )
         # At last we know  we have the right things so we can check
         #if the correct combinations of parameter values were used
-        hyperparams= {}
-        for key in hyperparams_and_counts[modelname].keys():
-            hyperparams[key] = []
- 
-        #see what is in the models
-        for idx in range(len(storedlist)):
-            model= storedlist[idx]
-            for key in hyperparams.keys():
-                hyperparams[key].append( model.__dict__[key])
+        if ok:
+            hyperparams= {}
+            for key in hyperparams_and_counts[modelname].keys():
+                hyperparams[key] = []
 
-        #check if the values and counts are right
-        alg_ok=True
-        alg_feedback= '' 
-        for key,val in hyperparams.items():
-            string_list = [str(element) for element in val]
-            values,counts = np.unique(string_list,return_counts=True)
-            desired = hyperparams_and_counts[modelname][key]
-            #print(f'key {key}, desired {desired},values {values} counts {counts} ')
-            if  not np.equal(counts, desired).all():
-                alg_feedback += (f'hyper-parameter {key} '
-                               f'values and counts {values}, {counts}\n'
-                              )
-                alg_ok=False
-        if alg_ok:
-            feedback += (f'Algorithm {modelname} correctly tested with ' 
-                         ' right combinations of values for hyper-parameters [10 marks].\n'
-                                )
-            score += 10
-        else:
-            feedback += (f'Algorithm {modelname} tested right number of times. [5 marks]\n '
-                             'but not with right sets of hyper-parameters.\n'
-                         f'{alg_feedback}.\n '
-                        )
-            score += 5
- 
+            #see what is in the models
+            for idx in range(len(storedlist)):
+                model= storedlist[idx]
+                for key in hyperparams.keys():
+                    hyperparams[key].append( model.__dict__[key])
+
+            #check if the values and counts are right
+            alg_ok=True
+            alg_feedback= '' 
+            for key,val in hyperparams.items():
+                string_list = [str(element) for element in val]
+                values,counts = np.unique(string_list,return_counts=True)
+                desired_vals = hyperparams_and_vals[modelname][key]
+                desired_counts = hyperparams_and_counts[modelname][key]
+                #print(f'key {key}, des_vals {desired_vals},'
+                       #f'des_counts {desired_counts}, values {values} counts {counts} ')
+                if ( len(counts) != len(desired_counts) or  
+                     not np.equal(counts, desired_counts).all() or
+                     len(values) != len(desired_vals) or  
+                     set(values) != set(desired_vals)
+                   ):
+                    alg_feedback += (f'for hyper-parameter {key} we got these '
+                                     f'incorrect values and counts {values}, {counts}\n'
+                                     f' Expected: {desired_vals}, {desired_counts}.\n'
+                                  )
+                    alg_ok=False
+            if alg_ok:
+                feedback += (f'Algorithm {modelname} correctly tested with ' 
+                             ' right combinations of values for hyper-parameters [10 marks].\n'
+                                    )
+                score += 10
+            else:
+                feedback += (f'Algorithm {modelname} tested right number of times. [5 marks]\n '
+                                 'but not with right sets of hyper-parameters.\n'
+                             f'{alg_feedback}.\n '
+                            )
+                score += 5
+
                 
                 
 
@@ -354,7 +389,10 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
                 score += 5
             else:
                 feedback += ("data does not seem to have had preprocessing (scaling) "
-                             " applied to every feature (column) independently"
+                             " applied to every feature (column) independently.\n"
+                             'Because the test data is supposed to be unseen '
+                             'you should fit your scaler to the training data only, '
+                             'but apply the same transformations to both train and test data.\n'
                             )
                                          
         # Now look at the labels provided to the stored models to look at the label encoder
@@ -426,15 +464,15 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         feedback += 'report_best() method failed to run and threw exception or error.\n'
         reportok=False
     if reportok:
-        if best_accuracy < best_acc_found:
+        if not np.isclose(best_accuracy, best_acc_found, 0.01):
             feedback += (
                 f'Odd: your report_best() method said the best accuracy was {best_accuracy} '
-                f'but inspecting your workflow object showed one with accuracy {best_acc_found}.\n'
+                f'but inspecting your workflow object showed the best had accuracy {best_acc_found}.\n'
             )
         else:
             score += 3
             feedback += ( 'Your code returned the correct best accuracy found. '
-                         f' (100*{best_accuracy}%) [3 marks].\n'
+                         f' ({100*best_accuracy}%) [3 marks].\n'
                         )
         if best_algname !=  best_alg_found:
             feedback += (
