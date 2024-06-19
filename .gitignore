@@ -140,5 +140,10 @@ dmypy.json
 # things ot keep from students
 notshared.py
 *completed.ipynb
+*boilerplate.py
 
 Learning_Materials/week_5/clusterandvisualise.py
+**/*.aiml
+
+#Mindview
+Mindview/
