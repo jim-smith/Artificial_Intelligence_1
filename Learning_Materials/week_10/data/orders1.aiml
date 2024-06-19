@@ -1,0 +1,10 @@
+<aiml>
+<category>
+  <pattern>TRACK ORDER REQUEST</pattern>
+    <template> OK, happy to help. Please enter your order number in the format: my order number is xxxxx</template>
+</category>
+
+
+<!-- add your categories below this line-->
+
+</aiml>

@@ -1,0 +1,23 @@
+<aiml>
+<category>
+  <pattern> MY ORDER NUMBER IS *</pattern>
+  <template>
+
+     <random>
+        <li> 
+           Your order has been dispatched and is in transit
+        </li>
+        <li> 
+           Your order has been marked as delivered.
+        </li>
+        <li> 
+           Your order number is not recognised.</li>
+        <li> 
+           We apologise. One or more items in your order were out of stock. We will dispatch as soon as we receive new supplies.
+        </li>
+    </random>
+ 
+  </template>
+</category>
+
+</aiml>
