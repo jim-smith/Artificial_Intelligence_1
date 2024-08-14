@@ -41,7 +41,10 @@ class FoxChickenGrain(Problem):
         Returns
         -------
         integer quality : -1 = invalid, 0 = valid, 1 = valid and reaches goal state
-        string  reason why solution is invalid
+        Raises
+        -------
+        ValueError(str)
+             with reason why solution is invalid
         """
         # all start on bank 0
         locations: dict = {"fox": 0, "chicken": 0, "grain": 0, "boat": 0}
@@ -49,7 +52,7 @@ class FoxChickenGrain(Problem):
         for next_move in attempt:
             ok, location_reason = self.things_in_right_place(locations, next_move)
             if not ok:
-                return -1, location_reason
+                raise ValueError( location_reason)
 
             else:  # move things
                 next_bank = 1 if next_move < 4 else 0
@@ -64,17 +67,17 @@ class FoxChickenGrain(Problem):
             # does valid partial solution break the constraints?
             if locations["boat"] != locations["chicken"]:
                 if locations["chicken"] == locations["fox"]:
-                    return -1, "fox eats chicken"
+                    raise ValueError( "fox eats chicken")
 
                 if locations["chicken"] == locations["grain"]:
-                    return -1, "chicken eats grain"
+                    raise ValueError( "chicken eats grain")
 
             # check for goal
             if list(locations.values()) == [1, 1, 1, 1]:
-                return 1, "goal reached"
+                return 1
 
         # got to end without breaking cionstraints or reaching goal
-        return 0, ""
+        return 0
 
     def display(self, attempt: list) -> str:
         """Outputs a candidate solution as a series of moves.
