@@ -154,3 +154,6 @@ Learning_Materials/week_3/maze-newwall.txt
 Learning_Materials/week_8/data_y.csv
 Learning_Materials/week_8/data/openml/openml.org/api/v1/json/data/554.gz
 Learning_Materials/week_8/data/openml/openml.org/api/v1/json/data/list/data_name/mnist_784/limit/2/data_version/1.gz
+
+# Docker stuff
+.devcontainer/
