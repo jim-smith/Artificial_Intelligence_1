@@ -69,7 +69,7 @@ class SingleMemberSearch:
         # Implementation specific storage
         self.runlog:str = ""  # any messages we want to store"
         self.trials = 0  # number of attempts so far
-        self.solved = False  # have we resched the goal?
+        self.solved = False  # have we reached the goal?
         self.best_so_far = BIGNUM
         self.result: list = []  # best solution found
         # list of positions where change can happen during search 

@@ -11,6 +11,7 @@ import os.path
 
 
 from tester.err_msg import processError, getExceptionDetails
+#from err_msg import processError, getExceptionDetails
 from typing import Any
 
 
@@ -36,40 +37,62 @@ for i in range(num):
 
 # # Functions to calculate different checks
 
-def check_fig_type(fig:Any)-> tuple :
-    ''' function that checks that variable fig is a matplotlib figure'''
+def check_fig_type_ok(fig:Any)-> tuple :
+    '''  checks that variable fig is a matplotlib figure
+    Parameters
+    -----------
+    fig: the thing being tested
+    
+    Returns
+    --------
+    tuple[Bool,str]: is the type correct and what is the feedback
+    '''
 
-    manual_marking= False
-    wrong_types=False
+    
+    right_types=False
     message = ""
 
     if  isinstance(fig, matplotlib.figure.Figure):
         message += ("Your code correctly returned first param of type Figure.\n")
+        right_types=True
         
-    #except in rate cases of scatter plotd created directly by plt.scatter
+    #except in rare cases of scatter plot created directly by plt.scatter
     elif isinstance(fig,matplotlib.collections.PathCollection):
-        manual_marking=True
-        message += ('Your code returned a first param of type pathcollection, '
-                    'which is unusual, and will need manual marking.\n')
+        message += ('The first thing returned by your code should be a figure, '
+                    'but instead it is of type pathcollection. '
+                    'This suggests that you called plt.scatter() directly,\n'
+                   'instead of making a figure with subplots in it and then'
+                   'writing scatter plots onto one of the axes as you were shown.\n'
+                   'Please change your code to return fig,ax as specified and resubmit.\n'
+                   'You score 0 for this attempt.\n' )
     else:
         message = ( "Error, your code does not return the right things.\n"
                     "The first thing returned should be of type matplotlib.figure.Figure, "
                    f"however your code return something of type {type(fig)}.\n"
                   )
-        wrong_types = True
-    return  manual_marking, wrong_types,message
+    return   right_types,message
 
 
 
 
 def check_ax_type(ax:Any,numfeatures=2)-> tuple :
-    ''' function that checks that ax variables is either an axes subplot or an array of them'''
-    wrong_types=False
+    ''' checks that ax variables is either an axes subplot or an array of them
+         Parameters:
+         -----------
+         ax:Any thing to check
+         numfeatures: ideal size of matrix 
+
+         Returns
+         --------
+         tuple [Bool,Bool,str]
+             wrong types or count
+             just one ax
+             feedback
+    
+    '''
+    wrong_count_or_types=False
     message = ""
     single_ax= False
-    manual_marking= False
-        
- 
     axtype = type(ax)
     
     #simple figure with one plot created using fig.subplots
@@ -88,20 +111,23 @@ def check_ax_type(ax:Any,numfeatures=2)-> tuple :
         message += f'You have returned an array with {num_dimensions} dimensions, of sizes {ax.shape}, '
 
         if   num_dimensions != 2 or ax.shape[0]!=numfeatures or ax.shape[1] !=numfeatures:
+            wrong_count_or_types=True
             message += ("but to compare combinations of features pairwise this should normally be "
                          f" a 2-D array of size {numfeatures}X{numfeatures}.\n"
-                       )
-            message += "this will require manual marking.\n"
-            manual_marking = True
+                        "Please check that you have not hard-coded "
+                        "the number of features (columns) in the dataset.\n"
+                        "The workbook illustrates how to do this is an assumption-free way.\n")
+            return wrong_count_or_types,single_ax,message 
         else:
             message += "which is the ideal arrangement.\n"
 
             
-        #check contentys of array
+        #get contents of array
         if len(ax.shape)==1:
             contents_type= type(ax[0])
         else:
-            contents_type= type(ax[0][0])                
+            contents_type= type(ax[0][0])    
+        #check  type
         if  issubclass(contents_type, matplotlib.axes.SubplotBase):
             message += "Your ax array correctly contains objects of  type AxesSubplot.\n" 
         elif issubclass(contents_type, matplotlib.axes._axes.Axes):#later versions of matplot
@@ -120,11 +146,11 @@ def check_ax_type(ax:Any,numfeatures=2)-> tuple :
                     "The second thing returned should either be: \n"
                      " - one thing of type  matplotlib.axes._subplots.AxesSubplot, or \n"
                      " - a numpy.ndarray of things of type matplotlib.axes._subplots.AxesSubplot\n"
-                     f"However your code return something of type {type(ax)}"
+                     f"However your code returns something of type {type(ax)}"
                   )
-        wrong_types = True
+        wrong_count_or_types = True
       
-    return manual_marking, wrong_types,single_ax,message
+    return wrong_count_or_types,single_ax,message
 
 
 
@@ -180,16 +206,22 @@ def test_clusters (ax:Any, single_ax:bool) -> tuple:
     '''function to test whether the clustering given to an ax matches the ideal version
     parameters ax: either single axessubplot or a ndarray
     parameter single_ax: tells type of ax
+
+    Returns
+    ---------
+    cluster quality :int
+    feedback: str
     '''
     message = ""
     cluster_quality = 0 #non-existent
-    
+
+    #get all the things in an axis
     if (single_ax):
         A = getattr(ax._children[0],"_A","missing")
     else:
         A = getattr(ax[2,0]._children[0], "_A","missing")
     
-    
+    # artists were not present
     if ( isinstance(A,str) and A=="missing") or (type(A) ==type(None)):
         cluster_quality = 0 #non-existent 
         message = "Your plot does not appear to have any different colors for the markers.\n"
@@ -318,11 +350,15 @@ def check_visualisation(func:Any,datafile:str,K:int,feature_names:Any,student_na
     cluster_quality =0
     message = ""
     
-    
-    #try to run the student's code
+    print('about to run your code')
+    #EARLY EXIT if student's code won't run
     try:
         returned= func(datafile, K,feature_names )
-        fig,ax = func(datafile, K,feature_names )
+        if len(returned)==2:
+            fig,ax=returned[0], returned[1]
+        else:
+            return 0, "Your function runs but does not return two objects as required"
+
     except Exception as e:
         #print(str(e))
         message = f"your code failed to run and produced this error message:\n "
@@ -333,147 +369,123 @@ def check_visualisation(func:Any,datafile:str,K:int,feature_names:Any,student_na
                     "Otherwise trace through the  message printed above"
                     "to find the line in your code that is producing the error"
                    )
-        total_score=0
-        done_marking = True
+        return total_score, message
     
-    #make sure figure file has been produced
-
-    if not done_marking:
-        if not os.path.isfile('myVisualisation.png') and  not os.path.isfile('myVisualisation.jpg'):
-            message = "Your code ran but failed to create a file called either myVisualisation.png."
-            message +="or myVisualisation.jpg.\nTherefore you score 0 for this attempt.\n"
-            total_score=0
-            done_marking = True
-        else:
-            message = "Your code ran and made a file called myVisualisation with a .jpg or .png extension.\n"
+    #EARLY EXIT if  figure file has not been produced 
+    if not os.path.isfile('myVisualisation.png') and  not os.path.isfile('myVisualisation.jpg'):
+        message = "Your code ran but failed to create a file called either myVisualisation.png."
+        message +="or myVisualisation.jpg.\nTherefore you score 0 for this attempt.\n"
+        return total_score, message
+    else:
+        message = "Your code ran and made a file called myVisualisation with a .jpg or .png extension.\n"
         
 
-    #check figure has correct return type
-    if not done_marking:
-        # start by testing the return types
-        manual_marking,wrong_types,message1 = check_fig_type(fig)
-        if(testing):    
-            #print (f"Checked fig, needs manual_marking= {manual_marking}, "
-               #f"wrongtype = {wrong_types}\nmessage= {message1}\n")
-            pass
-        message += message1
-        if (manual_marking):
-            total_score= -1,
-            done_marking= True
-        elif wrong_types:
-            total_score= 0,
-            done_marking= True   
+    #EARLY EXIT  if  figure has incorrect return type
+    # start by testing the return types
+    right_types,message1 = check_fig_type_ok(fig)
+    message += message1
+    if  not right_types:
+        return total_score, message   
       
-    #check type of ax
-    if not done_marking:
-        manual_marking,wrong_types,single_ax,message2 = check_ax_type(ax,numfeatures=len(feature_names))
-        if(testing):
-            #print (f"checking ax, manual_marking= {manual_marking}, " 
-               #f"wrongtype = {wrong_types}, single_ax= {single_ax}\nmessage= {message2}\n")
-            pass
-        message = message + message2
-        if (manual_marking):
-            total_score= -1,
-            done_marking= True
-        elif wrong_types:
-            total_score= 0,
-            done_marking= True                  
+    #EARLY EXIT if ax has wrong count or types
+    wrong_count_or_types,single_ax,message2 = check_ax_type(ax,numfeatures=len(feature_names))
+    message = message + message2
+    if  wrong_count_or_types:
+        return total_score, message             
 
   
 
-    #if all ok to proceed with the checking the content ...
-    if not done_marking:
-        
-        #are the diagonals on a matrix histograms?
-        diagonal_quality = 0
-        if not single_ax:
-            print(ax.shape)
-            try:
-                if isinstance(ax[0][0]._children[0],matplotlib.patches.Rectangle):
-                    diagonal_quality = 1
-                    #get colours
-                    colours= [p.get_facecolor() for p in ax[0][0]._children]
-                    num_colours = len( set(colours))
-                    message += (
-                        f'there are {num_colours} '
-                        'different coloured bars in your histograms,'
-                        )
-                    if num_colours==K :
-                        diagonal_quality =2
-                        message += " which matches K.\n"
-                    else:
-                        message +=f" but there should be {K}.\n" 
-            except IndexError:
-                message += ("Your figure has empty plots on the diagonal,"
-                            " which means it is not showing the distribution of values "
-                            " for each variable taken on its own.\n"
-                           )
-                      
-        #is there clustering 0 (none),1,2
-        cluster_quality,message5= test_clusters (ax, single_ax)
-        message +=message5
-        
-        #does the plot have the right number of points plotted in it?
-        right_count=True
-        if "but the data contains" in message5:
-            right_count=False
-         
-        
-        #is there a correct title? 0,1,2
-        title_quality,message3 = check_name_in_title(fig,ax,single_ax,student_name)
-        message += message3
-        
-        #is correct data in the clusters 0,1,2
-        #not currently implemented
-        
-        #are there axis labels? 0,1,2,3
-        label_quality, message4 = check_axis_labels (ax, single_ax,feature_names) 
-        message += message4
-        
-        
-        #Calculate Marks
-        message += "\n\n\n=== Overall: \n"
-        #content mark
-        if(single_ax):
-            message += "You score 5/20 for the basic content having just one plot,\n"
-            content_score = 5
-            if right_count:
-                message += "and 5/20 for plotting the right number of points.\n"
-                message +=f"and {10*cluster_quality}/20 for the quality of your clustering.\n"
-                content_score =10 + 10*cluster_quality 
-            else:
-                message +="You plotted the wrong number of points we could not check the clustering.\n"
-        else:
-            message += "You score 10/20 for the basic content having an array of plots\n"
-            content_score = 10
-            if right_count:
-                message += "and 10/20 for plotting the right number of points.\n"
-                message +=f"and {10*cluster_quality}/20 for the quality of your clustering.\n"
-                content_score =20 + 10*cluster_quality 
-                if(diagonal_quality>0):   
-                    message +="      and an extra 5 for having different plots on the diagonals\n"
-                    content_score += 5*diagonal_quality
-                if (diagonal_quality ==2):
-                    message +="      and an extra five for showing the histogram for each class in a different colour.\n"
-                    
-            else:
-                message +="You plotted the wrong number of points we could not check the clustering.\n"             
-        message +=f"Altogether, you score {content_score}/50 for the contents of your visualisation.\n\n"
-
-           
-        #presentation mark
-        if(label_quality==0 and title_quality==0):
-            presentation_score = 10
-            message +="You do not have a title or labels so you score 10 for presentation"
-        else:
-            message+=f"You score {10*label_quality}/30 for the quality of your labelling,\n"
-            message+=f"      and {10*title_quality}/20 for how well your title met the specs..\n"
-            presentation_score= 10 * (label_quality + title_quality)
-        message += f"Altogether, you score {presentation_score}/50 for presentation of  your visualisation.\n\n"
-        
-        message+=f"\nIn total you score {content_score+presentation_score}/100.\n"
+    #ok to proceed with the checking the content ...
+    #are the diagonals on a matrix histograms?
+    diagonal_quality = 0
+    if not single_ax:
+        #print(ax.shape)
+        try:
+            if isinstance(ax[0][0]._children[0],matplotlib.patches.Rectangle):
+                diagonal_quality = 1
+                #get colours
+                colours= [p.get_facecolor() for p in ax[0][0]._children]
+                num_colours = len( set(colours))
+                message += (
+                    f'there are {num_colours} '
+                    'different coloured bars in your histograms,'
+                    )
+                if num_colours==K :
+                    diagonal_quality =2
+                    message += " which matches K.\n"
+                else:
+                    message +=f" but there should be {K}.\n" 
+        except IndexError:
+            message += ("Your figure has empty plots on the diagonal,"
+                        " which means it is not showing the distribution of values "
+                        " for each variable taken on its own.\n"
+                       )
+                  
+    #is there clustering 0 (none),1,2
+    cluster_quality,message5= test_clusters (ax, single_ax)
+    message +=message5
     
-        total_score= content_score+presentation_score
+    #does the plot have the right number of points plotted in it?
+    right_count=False if "but the data contains" in message5 else True
+     
+    
+    #is there a correct title? 0,1,2
+    title_quality,message3 = check_name_in_title(fig,ax,single_ax,student_name)
+    message += message3
+    
+    #is correct data in the clusters 0,1,2
+    #not currently implemented
+    
+    #are there axis labels? 0,1,2,3
+    label_quality, message4 = check_axis_labels (ax, single_ax,feature_names) 
+    message += message4
+    
+    
+    #Calculate Marks
+    message += "\n\n\n=== Overall: \n"
+    #content mark
+    if(single_ax):
+        message += "You score 5/20 for the basic content having just one plot,\n"
+        content_score = 5
+        if right_count:
+            content_score += 5
+            message += "and 5/20 for plotting the right number of points.\n"
+            message +=f"and {10*cluster_quality}/20 for the quality of your clustering.\n"
+            content_score += 10*cluster_quality 
+        else:
+            message +="You plotted the wrong number of points we could not check the clustering.\n"
+    else:
+        message += "You score 10/20 for the basic content having an array of plots\n"
+        content_score = 10
+        if right_count:
+            message += "and 10/20 for plotting the right number of points.\n"
+            content_score += 10
+            message +=f"and {10*cluster_quality}/20 for the quality of your clustering.\n"
+            content_score += 10*cluster_quality 
+            if(diagonal_quality>0):   
+                message +="      and an extra 5 for having different plots on the diagonals\n"
+                content_score += 5*diagonal_quality
+            if (diagonal_quality ==2):
+                message +="      and an extra five for showing the histogram for each class in a different colour.\n"
+                
+        else:
+            message +="You plotted the wrong number of points we could not check the clustering.\n"             
+    message +=f"Altogether, you score {content_score}/50 for the contents of your visualisation.\n\n"
+
+       
+    #presentation mark
+    if(label_quality==0 and title_quality==0):
+        presentation_score = 10
+        message +="You do not have a title or labels so you score 10 for presentation"
+    else:
+        message+=f"You score {10*label_quality}/30 for the quality of your labelling,\n"
+        message+=f"      and {10*title_quality}/20 for how well your title met the specs..\n"
+        presentation_score= 10 * (label_quality + title_quality)
+    message += f"Altogether, you score {presentation_score}/50 for presentation of  your visualisation.\n\n"
+    
+    message+=f"\nIn total you score {content_score+presentation_score}/100.\n"
+
+    total_score= content_score+presentation_score
     return total_score, message
         
 testing = False

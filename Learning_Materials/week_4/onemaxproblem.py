@@ -65,9 +65,9 @@ class OneMaxContinuous(Problem):
 
     def __init__(self, N = 20):
         self.numdecisions: int = N
-        self.value_set: list = [0,1]
+        self.value_set: list = [0,2]
         self.gradient:np.array= np.zeros(N) 
-        self.target:np.array= np.ones(N)
+        self.target:np.array= np.ones(N) 
 
     def evaluate(self, solution: list) -> int:
         """Evaluate function.
@@ -102,8 +102,6 @@ class OneMaxContinuous(Problem):
             errmsg=f'Error: found value {max} outside valid range {self.value_set}.'
             raise ValueError(errmsg)
 
-            
-        
         if solution.shape[0]!= self.numdecisions:
             errmsg = (f"solution has length {solution.shape[0]}"
                       f"should be {self.numdecisions}"
@@ -112,11 +110,11 @@ class OneMaxContinuous(Problem):
         
         # calculate gradient and score
         self.gradient = self.target - solution
-        score = np.square(self.gradient).sum() 
-        # round to 6 sdignificant digits
+        score = 0.5 * np.square(self.gradient).sum() 
+
+        # round to 2 significant digits
         score=round(score,2)
             
-        # toggle flag on whether gradient wil lbe new
         return score
     
     def get_gradient(self):
