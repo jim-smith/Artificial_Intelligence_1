@@ -19,49 +19,37 @@ def mark_exhaustive_search_4tumblers():
     """function to test implementation of exhaustive search"""
     # create new puzzle
     puzzle = CombinationProblem(tumblers=4, num_options=10)
-    # call function to solve the puzzle
-    # wrap it in a try...except to help debug incorrect code
-    
-    worked = False
+ 
+    message= "Testing your code with a single random combination.<br>"
     score = 0
     try:
         search_answer = exhaustive_search_4tumblers(puzzle)
         if search_answer == puzzle.goal:
-            worked=True
+            message += ("Your code ran successfully."
+                        " It would score some marks but not necessarily all,"
+                          " because this is only one test.<br>"  )
+            score = 2
         else:
-            message = (
-                f"Something went wrong: your code returned the answer {search_answer}<br>"
-            )
-            message += f" but the real answer was {puzzle.goal}"
+            message += ("Your code ran but did not pass <b>this</b> test." 
+                        " It is not clear if it will score marks.<br>"
+                      )
+            score=1
+
     except Exception as e:
-        message = "Something went wrong with your code.<br>"
-        message += "Here is the stack trace which should let you find the error<br>"
+        message +=  ("Something went wrong with your code.<br>"
+                     "Here is the stack trace which should let you find the error.<br>"
+                    )
         message += traceback.format_exc()
-    # assertion fails and prints the message if something went wrong
-    
-    if worked:
-        message = f"Well done, your code correctly found the solution {puzzle.goal}"
-        score = 40
-    
+        message += "<br>"
+
+        score=0
+
     return score, message
 
 #========================================================
 def mark_sudoku_checker():
-    attempt1 = np.array(
-    [
-        [1, 2, 3, 4, 5, 6, 7, 8, 9],
-        [2, 3, 4, 5, 6, 7, 8, 9, 1],
-        [3, 4, 5, 6, 7, 8, 9, 1, 2],
-        [4, 5, 6, 7, 8, 9, 1, 2, 3],
-        [5, 6, 7, 8, 9, 1, 2, 3, 4],
-        [6, 7, 8, 9, 1, 2, 3, 4, 5],
-        [7, 8, 9, 1, 2, 3, 4, 5, 6],
-        [8, 9, 1, 2, 3, 4, 5, 6, 7],
-        [9, 1, 2, 3, 4, 5, 6, 7, 8]
-    ]
-    )
     
-    attempt2 = np.array(
+    attempt = np.array(
     [
         [4,8,3,9,2,1,6,5,7],
         [9,6,7,3,4,5,8,2,1],
@@ -70,38 +58,38 @@ def mark_sudoku_checker():
         [7,2,9,5,6,4,1,3,8],
         [1,3,6,7,9,8,2,4,5],
         [3,7,2,6,8,9,5,1,4],
-        [8,1,4,2,5,3,7,6,9],
-        [6,9,5,4,1,7,3,8,2]
+        [8,9,4,2,5,3,7,6,9],
+        [6,1,5,4,1,7,3,8,2]
     ]
-    )   
+    )  #swapped second column value for bottom two rows
+      #so they fail but all columns and squares are ok 
 
-    score = 0
+    message="Trying your code with a single sodoku grid.<br>"
+    score=0
+    try:
+        
+        passed = check_sudoku_array(attempt)
+        if (passed==25):
+            message += ("Your code ran and gave the correct result for this test."
+                        " It would score some marks."
+                       )
+            score=2
+        else:
+            message += ("Your code ran but gave the incorrect result for this test."
+                        " It <b>might</b> score some marks."
+                       )
+            score=1            
+        
+
+    except Exception as e:
+        message += "Something went wrong with your code.<br>"
+        message += "Here is the stack trace which should let you find the error<br>"
+        message += traceback.format_exc()
+        message += "<br>"
+        score=0
+        
     
-    msg1=''
-    passed = check_sudoku_array(attempt1)
-    if  passed==27:
-        msg1= "Your code incorrectly said this invalid array was ok.<br>"
-    else:
-        score +=5
-        msg1= ("Your code correctly said this was not a Sudoku solution"  
-               f" because it failed {27 -passed} conditions.<br>"
-              )
-    for row in range(attempt1.shape[0]):
-        msg1 += f'{attempt1[row]}<br>'
-    
-    msg2=''
-    passed = check_sudoku_array(attempt2)
-    if  passed==27:
-        msg2= "Your code correctly said this was ok.<br>"
-        score += 5
-    else:
-        msg2= ("Your code incorrectly said this  valid Sudoku solution"    
-               f" failed {27-passed} tests.<br>"
-              )
-    for row in range(attempt2.shape[0]):
-        msg2 += f'{attempt2[row]}<br>'
-    
-    return score, msg1 +'<br>' +msg2
+    return score, message
 
 
 #====================================================
@@ -112,6 +100,8 @@ def mark_get_names():
     building and using an error string to give more information.
     NOTE: we will test your code using different arrays, so you can't hard-code the answers!
     """
+    message= "Trying your code with a single array of names.<br>"
+    score=0
     tutors_names2 = np.array(
         [
             ["j", "u", "r", "g", "e", "n", " ", "k", "l", "o", "p", "p", " "],
@@ -120,15 +110,26 @@ def mark_get_names():
         ],
         dtype=str,
     )
-    returned_value = get_names(tutors_names2)
-    correct_value = ["klopp ", "harvey", "arnold"]
-    error_msg = f"returned value {returned_value} should be {correct_value}"
-    if returned_value == correct_value:
-        return 10, f"Well done, your code correctly pulled out the names in this test"
-    else:
-        return  0, ("Your code returned a set of incorrect values.<br>"
-                    "To help you, all first names and family names in the test have length 5 or 6."
+    try:
+        returned_value = get_names(tutors_names2)
+        correct_value = ["klopp ", "harvey", "arnold"]
+        if returned_value == correct_value:
+            score=2
+            message += "Your code correctly pulled out the names on a test and would score marks.<br>"
+        else:
+            score=1
+            message += ("Your code ran ok but returned a set of incorrect values.<br>"
+                        " It is not clear if you will score any marks.<br>"
                    )
+    except Exception as e:
+        message += "Something went wrong with your code.<br>"
+        message += "Here is the stack trace which should let you find the error<br>"
+        message += traceback.format_exc()
+        message += "<br>"
+        score=0
+        
+    
+    return score, message
 
 
 #======================
