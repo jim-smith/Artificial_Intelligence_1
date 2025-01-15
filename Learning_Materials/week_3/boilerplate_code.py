@@ -44,11 +44,12 @@ wall_colour= 0.0
 hole_colour = 1.0
 
 def create_maze_breaks_depthfirst():
-
+    pass
     # ====> insert your code below here
 
     # <==== insert your code above here
 def create_maze_depth_better():
+    pass
     # ====> insert your code below here 
 
     # <==== insert your code above here
