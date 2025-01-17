@@ -17,7 +17,7 @@ Q05: What is a rule?
 A05: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
 
 Q06: Give me an example of long-term generic knowledge.
-A06: The formal specification of the python programming language.
+A06: Generative AI frequently hallucinates and produces incorrect results.
 
 Q07: Give me an example of long-term domain-specific knowledge.
 A07: The formal specification of a particular machine learning algorithm.
@@ -29,7 +29,7 @@ Q09: Give me an example of short-term domain-specific knowledge.
 A09: The deadline for the submission of this portfolio.
 
 Q10: Give me an example of a rule.
-A10: If isAlive(X) then NOT isDead(X).
+A10: If submitsOthersWork(X) then NOT commitsAssessmentOffence(X).
 
 Q11: Give me an example of a fact.
 A11: Submissions for this module are run through automatic and effective plagiarism checks.
@@ -71,7 +71,7 @@ Q23: Tell me about a rule.
 A23: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
 
 Q24: Illustrate the concept of long-term generic knowledge.
-A24: The formal specification of the python programming language.
+A24: Generative AI frequently hallucinates and produces incorrect results.
 
 Q25: Illustrate the concept of long-term domain-specific knowledge.
 A25: The formal specification of a particular machine learning algorithm.
@@ -86,10 +86,10 @@ Q28: Illustrate the concept of a fact.
 A28: Submissions for this module are run through automatic and effective plagiarism checks.
 
 Q29: Illustrate the concept of a rule.
-A29: If isAlive(X) then NOT isDead(X).
+A29: If submitsOthersWork(X) then NOT commitsAssessmentOffence(X).
 
 Q30: Provide an example of long-term generic knowledge.
-A30: The formal specification of the python programming language.
+A30: Generative AI frequently hallucinates and produces incorrect results.
 
 Q31: Provide an example of long-term domain-specific knowledge.
 A31: The formal specification of a particular machine learning algorithm.
@@ -107,13 +107,13 @@ Q35: Why is knowing that useful?
 A35: To remind you that we take assessment offences very seriously.
 
 Q36: Please provide an example of a rule.
-A36: If isAlive(X) then NOT isDead(X).
+A36: If submitsOthersWork(X) then NOT commitsAssessmentOffence(X).
 
 Q37: What is a rule mybot?
 A37: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.
 
 Q38: Please give me an example of a rule.
-A38: If isAlive(X) then NOT isDead(X).
+A38: If submitsOthersWork(X) then NOT commitsAssessmentOffence(X).
 
 Q39: Please myBot what is a rule?
 A39: A rule is a statement that generates new knowledge by asserting that if one fact is true, then another is also true.

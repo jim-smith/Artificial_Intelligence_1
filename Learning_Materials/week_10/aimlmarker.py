@@ -32,7 +32,7 @@ class Capturing(list):
 class AIMLMarker:
     def __init__(
         self,
-        question_file: str = "portfolio-questions-and-responses-2024.txt",
+        question_file: str = "portfolio-questions-and-responses-2025.txt",
         num_questions: int = 45,
         context_question_ids=None,
     ):
@@ -42,7 +42,7 @@ class AIMLMarker:
         ---------
         question_file (str): name of text file holding sets of questions
                              and responses to be produced
-                             default the 2024 questions
+                             default the 2025 questions
         num_questions (int): number of question-response pairs
                              default 45
         context_question_ids (int): list of indexes of the context-dependent questions
@@ -68,7 +68,7 @@ class AIMLMarker:
         self.context_questions: list = context_question_ids
         self.question_file: str = question_file
         # can't specify default values for list param
-        if self.question_file == "portfolio-questions-and-responses-2024.txt":
+        if self.question_file == "portfolio-questions-and-responses-2025.txt":
             self.context_questions = [35, 42, 44]
 
         # check parameters are valid
