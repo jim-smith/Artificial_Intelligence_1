@@ -139,8 +139,9 @@ dmypy.json
 .zip
 # things ot keep from students
 notshared.py
-*completed.ipynb
+*completed*.ipynb
 *boilerplate.py
+studentcode/*
 
 Learning_Materials/week_5/clusterandvisualise.py
 **/*.aiml

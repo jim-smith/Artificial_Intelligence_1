@@ -10,7 +10,7 @@ class Problem:
         self.numdecisions: int = -1
         self.value_set: list = []
 
-    def evaluate(self, solution: list) -> tuple[int, str]:
+    def evaluate(self, solution: list) -> int:
         """Evaluate function.
 
         Parameters
