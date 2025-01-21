@@ -64,7 +64,7 @@ def test_make_xor_reliability_plot(myfig,myaxs)->(int,str):
     else:
         feedback += "Missing or incorrect y-axis label for left hand plot.\n"
 
-    if myaxs[1].get_ylabel() == "Mean epochs":
+    if myaxs[1].get_ylabel() == "Mean Epochs":
         score +=2    
         feedback += "Correct y-axis label for right hand plot [2].\n"
     else:
@@ -240,16 +240,15 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         score = 10
                      
     ## run the workflow - we will test the functionality later  
-    feedback += "\n ===Running preprocess(), make_label_encodings() and run_comparison()===\n"
+    feedback += "\n ===Running preprocess(), and run_comparison()===\n"
     try:
         mycomp.preprocess()
-        mycomp.make_label_encodings()
         mycomp.run_comparison()
     except Exception as e:
         ok=False
         feedback += ("Exception encountered when running your code.\n"
                      "Use the feedback provided by the stack trace to debug your code.\n"
-                     "To avoid wasting attempts  don't submitting this work until you have fixed this error.\n"
+                     "To avoid wasting attempts  don't submit this work until you have fixed this error.\n"
                      f"{e}\n"
                     )
         return score , feedback
@@ -257,7 +256,7 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         ok=False
         feedback += ("Error encountered when running your code.\n"
              "Use the feedback provided by the stack trace to debug your code.\n"
-             "To avoid wasting attempts  don't submitting this work until you have fixed this error.\n"
+             "To avoid wasting attempts  don't submit this work until you have fixed this error.\n"
              "Name Errors usualy come from having undefined variables in your code"
              f"{e}\n"
             )
@@ -363,7 +362,13 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         if processed_data.shape != train_x.shape:
             ok= False
             feedback += (f'data after preprocessing has shape {processed_data.shape}'
-                         f'but it should be {tr_x.shape} if you have '
+                         f'but it should be {train_x.shape} if you have '
+                         'done a 70:30 train:test split and kept all the features\n'
+                        )
+        elif processed_labels.shape != train_y.shape:
+            ok= False
+            feedback += (f'labels after preprocessing have shape {processed_labels.shape}'
+                         f'but it should be {train_y.shape} if you have '
                          'done a 70:30 train:test split and kept all the features\n'
                         )
         else:
@@ -398,7 +403,7 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         # Now look at the labels provided to the stored models to look at the label encoder
         feedback += "\n==== Now looking at label encoding or knn vs MLP===\n"
         #knn uses raw labels
-        if   np.equal(processed_labels, train_y ).all():
+        if   np.array_equiv(processed_labels, train_y ):
             feedback += ' KNN were correctly trained with original labels. [5 marks]\n'
             score += 5
                                          
@@ -456,7 +461,7 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
         feedback += ("Record of best accuracy for each type of model not correctly stored "
                      "in dict as specified")
     
-    # at very long last check the reporting
+    # at very long last ... check the reporting
     reportok = True
     try:
         best_accuracy, best_algname, best_model = mycomp.report_best()
@@ -499,5 +504,5 @@ def test_mlcomparisonworkflow(MLComparisonWorkflow,data_x,data_y):
             for key in hyperparams_and_counts[best_alg_found].keys():
                 val= best_model.__dict__.get(key,'missing')
                 feedback += (f'{key} : {val}')
-        feedback += (f'\n===Overall you score {score} / 80 ===\n')
+        feedback += (f'\n===Overall you score {score} / 75 ===\n')
     return score, feedback
