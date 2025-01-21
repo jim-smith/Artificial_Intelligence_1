@@ -128,7 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
+##### Module specific stuff derving from our development
 #mac stuff
 .DS_Store
 
@@ -137,15 +137,21 @@ dmypy.json
 
 # zip files
 .zip
-# things ot keep from students
-notshared.py
-*completed.ipynb
-*boilerplate.py
 
+
+# things to keep from students
+
+notshared.py
+*completed*.ipynb
+*boilerplate.py
+studentcode/*
+studentcode/
+student-responses.txt
+student-feedback.txt
 Learning_Materials/week_5/clusterandvisualise.py
 **/*.aiml
 
-#Mindview
+workbook*old*.ipynb
 Mindview/
 Learning_Materials/week_8/data_x.csv
 Learning_Materials/week_3/maze-breaks-depth.txt
