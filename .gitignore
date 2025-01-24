@@ -145,7 +145,6 @@ notshared.py
 *completed*.ipynb
 *boilerplate.py
 studentcode/*
-studentcode/
 student-responses.txt
 student-feedback.txt
 Learning_Materials/week_5/clusterandvisualise.py
