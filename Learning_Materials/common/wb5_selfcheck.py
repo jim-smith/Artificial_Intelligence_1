@@ -155,11 +155,11 @@ def check_ax_type(ax:Any,numfeatures=2)-> tuple :
 
 
 
-def check_name_in_title(fig:Any,ax:Any,single_ax:bool,student_name:str)->tuple:
+def check_substring_in_title(fig:Any,ax:Any,single_ax:bool,substring:str)->tuple:
     title_quality=0
     quality_strings =('Your visualisation does not contain a title.\n',
-                      'Your visualisation has a title, but it does not contain your user name  as required.\n',
-                      'Your visualisation  correctly has your user name in the title.\n'
+                      'Your visualisation has a title, but it does not contain the details required.\n',
+                      'Your visualisation has the details required in the title.\n'
             )
     the_title= ""
     
@@ -179,7 +179,7 @@ def check_name_in_title(fig:Any,ax:Any,single_ax:bool,student_name:str)->tuple:
             
         if the_title=="" or the_title==None:
             title_quality = 0 #missing
-        elif student_name in the_title:
+        elif substring in the_title:
             title_quality = 2 #good
         else :  
             title_quality = 1 #inadequate
@@ -193,7 +193,7 @@ def check_name_in_title(fig:Any,ax:Any,single_ax:bool,student_name:str)->tuple:
         else:    
             the_title=fig._suptitle.get_text()
         
-            if student_name in the_title:
+            if substring in the_title:
                 title_quality = 2 #good
             else :  
                 title_quality = 1 #inadequate
@@ -430,7 +430,7 @@ def check_visualisation(func:Any,datafile:str,K:int,feature_names:Any,student_na
      
     
     #is there a correct title? 0,1,2
-    title_quality,message3 = check_name_in_title(fig,ax,single_ax,student_name)
+    title_quality,message3 = check_substring_in_title(fig,ax,single_ax,f' {K} ')
     message += message3
     
     #is correct data in the clusters 0,1,2
