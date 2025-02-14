@@ -4,6 +4,8 @@ Python/Jupyter teaching materials for the module Artificial Intelligence 1 at Un
 The notebooks for the lectures and the lab workbooks are all in the weekly folders.
 
 
+### The following are disabled for 2025 because they were not super-stable, but could be re-enabled
+
 ### Automatic import to student accounts on csctcloud jupyterhub server
 CSCTcloud has nbgitpuller enabled 
 - Thus  if students follow the link below to access  it will automatically pull the latest materials in the main branch of this repository
