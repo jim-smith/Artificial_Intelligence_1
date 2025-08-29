@@ -1,16 +1,17 @@
 """ the_marking.py
-Author : james.smith@uwe.ac.uk 2024
- marks workbook 1 from Artificial Intelligencw 1
+Author : james.smith@uwe.ac.uk 2024, 2025
+ marks workbook 3 from Artificial Intelligence 1
  """
 from __future__ import annotations
 import numpy as np
+import importlib
 import traceback
 from candidatesolution import CandidateSolution
 from problem import Problem
 from singlemembersearch import SingleMemberSearch
 from mazenodisplay import Maze
 
-import student_wb3 as student
+student= importlib.import_module("student_wb3",package="studentcode")
 
 def run_on_maze(
     algorithm: SingleMemberSearch, 
@@ -35,9 +36,9 @@ def run_on_maze(
         else:
             status=1
     except Exception as e:
-        print(f'Exception occurrred running your code for algortithm {name}.<br>'
+        print(f'Exception occurred running your code for algorithm {name}.<br>'
               f'This stack trace may help you identify the problem.<br>'
-              f'{traceback.format_exc()}'
+              f'{traceback.format_exc(limit=0)}'
         )
         status=0
     
@@ -98,7 +99,7 @@ def test_maze_that_breaks_depthfirst():
     except Exception as e:
         outstr=("Running your function caused the following ex eption to  be raised:<br>"
                 "This stack trace may help you identify the problem<br>"
-                f'{traceback.format_exc()}'
+                f'{traceback.format_exc(limit=0)}'
                )
         score=0
     return score, outstr
@@ -126,7 +127,7 @@ def test_maze_depth_better():
     except Exception as e:
         outstr=("Running your function caused the following exception to  be raised:<br>"
                 "This stack trace may help you identify the problem.<br>"
-                f'{traceback.format_exc()}'
+                f'{traceback.format_exc(limit=1)}'
                )
         score=0
 

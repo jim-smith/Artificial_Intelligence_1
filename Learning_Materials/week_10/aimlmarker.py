@@ -376,8 +376,11 @@ class AIMLMarker:
                     tag_found = True
                 if tag_found:
                     lines_to_write.append(line)
+        if not tag_found:
+            self.feedback_str += "----Error: Opening tag &lt;aiml&gt; not found in file - contents will  be lost."
         with open(aiml_filename, "w", encoding="utf8") as out_file:
             out_file.writelines(lines_to_write)
+        
 
     def test_aiml(self, aiml_filename: str = "student.aiml"):
         """The main test method.

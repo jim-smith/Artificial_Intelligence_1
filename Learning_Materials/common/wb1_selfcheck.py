@@ -1,19 +1,29 @@
-# File testcode.py
-# Jim Smith 2025 james.samith@uwe.ac.uk
-#provided to test studetns code for syntax errors prior ot submission for marking
+# File wb1_selfcheck.py
+# Jim Smith 2025 james.smith@uwe.ac.uk
+#provided to test students code for syntax errors prior to submission for marking
 
 
-#import your code
+from __future__ import annotations
+import numpy as np
+import importlib
 import traceback
-from sys import path
-path.append("../common")
-from approvedimports import *
-student_codepath = "studentcode"
-path.append(student_codepath)
-from student_wb1 import get_names
-from student_wb1 import exhaustive_search_4tumblers
-from student_wb1 import check_sudoku_array
+from candidatesolution import CandidateSolution
+from problem import Problem
 
+from approvedimports import *
+
+try:
+    student= importlib.import_module("student_wb1",package="studentcode")
+except ModuleNotFoundError:
+    print( f'The  code file {package_name} does not seem to be present')
+except SyntaxError as e:
+    print( f'Found a problem in your code of type {type(e)}\n'
+               f'Message: is {e}\n'
+               'Last item in traceback is:\n'
+               f'{traceback.format_exc(limit=0)}'
+              )
+
+    
 #====================================================
 def mark_exhaustive_search_4tumblers():
     """function to test implementation of exhaustive search"""
@@ -23,7 +33,7 @@ def mark_exhaustive_search_4tumblers():
     message= "Testing your code with a single random combination.<br>"
     score = 0
     try:
-        search_answer = exhaustive_search_4tumblers(puzzle)
+        search_answer = student.exhaustive_search_4tumblers(puzzle)
         if search_answer == puzzle.goal:
             message += ("Your code ran successfully."
                         " It would score some marks but not necessarily all,"
@@ -39,7 +49,7 @@ def mark_exhaustive_search_4tumblers():
         message +=  ("Something went wrong with your code.<br>"
                      "Here is the stack trace which should let you find the error.<br>"
                     )
-        message += traceback.format_exc()
+        message += traceback.format_exc(limit=1)
         message += "<br>"
 
         score=0
@@ -68,7 +78,7 @@ def mark_sudoku_checker():
     score=0
     try:
         
-        passed = check_sudoku_array(attempt)
+        passed = student.check_sudoku_array(attempt)
         if (passed==25):
             message += ("Your code ran and gave the correct result for this test."
                         " It would score some marks."
@@ -111,7 +121,7 @@ def mark_get_names():
         dtype=str,
     )
     try:
-        returned_value = get_names(tutors_names2)
+        returned_value = student.get_names(tutors_names2)
         correct_value = ["klopp ", "harvey", "arnold"]
         if returned_value == correct_value:
             score=2

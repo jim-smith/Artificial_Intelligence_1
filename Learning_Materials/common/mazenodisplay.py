@@ -9,7 +9,8 @@ import numpy as np
 #from matplotlib import pyplot as plt
 from problem import Problem
 
-
+holecolor=1
+wallcolor=0
 class Maze(Problem):
     """Class definition for a rectangular maze problem."""
 
